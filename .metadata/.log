@@ -185,3 +185,20 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2024-05-01 18:37:50.960
 !MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.egit.core 4 0 2024-05-01 18:39:31.515
+!MESSAGE An exception occurred during push on URI https://github.com/CristianEsposit/Subi-que-te-llevo.git: https://github.com/CristianEsposit/Subi-que-te-llevo.git: not authorized
+!STACK 0
+org.eclipse.jgit.errors.TransportException: https://github.com/CristianEsposit/Subi-que-te-llevo.git: not authorized
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:695)
+	at org.eclipse.jgit.transport.TransportHttp.connect(TransportHttp.java:637)
+	at org.eclipse.jgit.transport.TransportHttp.openPush(TransportHttp.java:541)
+	at org.eclipse.jgit.transport.PushProcess.execute(PushProcess.java:140)
+	at org.eclipse.jgit.transport.Transport.push(Transport.java:1557)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:269)
+	at org.eclipse.egit.ui.internal.push.PushJob.performJob(PushJob.java:86)
+	at org.eclipse.egit.ui.internal.jobs.RepositoryJob.run(RepositoryJob.java:59)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.egit.ui 4 0 2024-05-01 18:39:31.516
+!MESSAGE Can't connect to any repository: https://github.com/CristianEsposit/Subi-que-te-llevo.git (https://github.com/CristianEsposit/Subi-que-te-llevo.git: not authorized)
