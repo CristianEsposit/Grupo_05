@@ -2,20 +2,23 @@ package negocio;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import excepciones.CantidadDePasajerosException;
+import excepciones.ClienteExistenteException;
 import excepciones.PedidoIncoherenteException;
 import excepciones.ZonaInvalidaException;
 import modelo.Chofer;
 import modelo.Cliente;
 import modelo.IVehiculo;
 import modelo.Pedido;
+import modelo.Vehiculo;
 import modelo.Viaje;
 
 public class Sistema {
 	private static Sistema instance = null;
-	private ArrayList<IVehiculo> flota = new ArrayList<IVehiculo>();
-	private ArrayList<Chofer> choferes = new ArrayList<Chofer>();
+	private HashMap<String,Vehiculo> flota = new HashMap<String,Vehiculo>();
+	protected ArrayList<Chofer> choferes = new ArrayList<Chofer>();
 	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	private ArrayList<Viaje> viajes = new ArrayList<Viaje>();
 	
@@ -29,25 +32,44 @@ public class Sistema {
 		return instance;
 	}
 	
-	public void agregar(Cliente cliente) {
+	public void agregar(Cliente cliente) throws ClienteExistenteException{
 		assert cliente != null : "cliente invalido";
-		if (clientes.contains(cliente))
-			System.out.println("El cliente no puede agregarse porque ya existe.");
-		else {
+		if (clientes.contains(cliente)) {
+			throw new ClienteExistenteException("El cliente no puede agregarse porque ya existe.");
+		} else {
 			this.clientes.add(cliente);
 		}
 	}
 	
-	public void modificar(Cliente cliente) {  //que quiero modificar
+	public void modificar(Cliente cliente, String nombre, String usuario, String password) throws ClienteExistenteException{  //que quiero modificar
 		assert cliente != null : "cliente no valido";
 		if (clientes.contains(cliente)) {
-			
+			Cliente c = clientes.get(clientes.indexOf(cliente));
+			if(nombre != null)
+				c.setNombreReal(nombre);
+			if(usuario != null) {
+				int i = 0;
+				while(i < clientes.size() && clientes.get(i).getNombreUsuario() != usuario) {
+					i++;
+				}
+				if(!(i < clientes.size())) // no encontro el cliente
+					c.setNombreUsuario(usuario);
+				else {
+					throw new ClienteExistenteException("El nombre de usuario ya existe");
+				}
+			}
+			if(password != null)
+				c.setPassword(password);
 		}
 	}
 	
-	public Cliente consulta(Cliente cliente) {
-		if (clientes.contains(cliente))
-			return cliente;
+	public Cliente consultarCliente(String usuario) {
+		int i = 0;
+		while(i < clientes.size() && clientes.get(i).getNombreUsuario() != usuario) {
+			i++;
+		}
+		if(i < clientes.size()) // no encontro el cliente
+			return clientes.get(i);
 		else
 			return null;
 	}
@@ -74,6 +96,45 @@ public class Sistema {
 		return pedido;
 	}
 	
+	public void agregar(Vehiculo vehiculo,String patente) {
+		assert vehiculo != null : "vehiculo invalido";
+		flota.put(patente,vehiculo);
+	}
+	
+	public void modificar(Vehiculo vehiculo, String patente) {
+		assert vehiculo != null : "vehiculo no valido";
+		Vehiculo v = flota.get(patente);
+		if(v != null) {
+			v.setNroPatente(patente);
+		}
+	}
+	
+	public Vehiculo consultarVehiculo(String patente) {
+		return flota.get(patente);
+	}
+	
+	public void agregar(Chofer chofer) {
+		if(!this.choferes.contains(chofer)) {
+			this.choferes.add(chofer);
+		}
+	}
+	
+	/*public void modificarChofer(ChoferTemprario chofer, String nombre, String dni) {
+		
+	}*/
+	
+	public Chofer consultarChofer(String dni) {
+		int i = 0;
+		while(i < choferes.size() && choferes.get(i).getDni() != dni) {
+			i++;
+		}
+		if(i < choferes.size()) // no encontro el cliente
+			return choferes.get(i);
+		else
+			return null;
+	}
+	
+	
 	public void pagarViaje(Cliente cliente, Viaje viaje) {
 		viaje.pagar();
 	}
@@ -98,7 +159,7 @@ public class Sistema {
 		return choferes;
 	}
 	
-	public ArrayList<IVehiculo> listadoVehiculos() {
+	public HashMap<String,Vehiculo> listadoVehiculos() {
 		return flota;
 	}
 	
