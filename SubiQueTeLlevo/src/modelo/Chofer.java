@@ -7,7 +7,7 @@ public abstract class Chofer {
 	protected String dni;
 	protected String nombre;
 	private int puntaje;
-	ArrayList<Viaje> viajes = new ArrayList<Viaje>();
+	ArrayList<IViaje> viajes = new ArrayList<IViaje>();
 	
 	//private int calificacion;
 
@@ -26,11 +26,11 @@ public abstract class Chofer {
 		return nombre;
 	}
 
-	public ArrayList<Viaje> getViajes() {
+	public ArrayList<IViaje> getViajes() {
 		return viajes;
 	}
 
-	public void agregarViaje(Viaje viaje) {
+	public void agregarViaje(IViaje viaje) {
 		this.viajes.add(viaje);
 	}
 
@@ -41,6 +41,7 @@ public abstract class Chofer {
 	public void setPuntaje(int puntaje) {
 		this.puntaje = puntaje;
 	}
+	
 	
 	/*getCalificacion()- setCalificacion()*/
 }
