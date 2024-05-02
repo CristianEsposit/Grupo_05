@@ -13,7 +13,6 @@ import excepciones.PedidoIncoherenteException;
 import excepciones.ZonaInvalidaException;
 import modelo.Chofer;
 import modelo.Cliente;
-import modelo.IVehiculo;
 import modelo.IViaje;
 import modelo.Pedido;
 import modelo.Vehiculo;
@@ -89,7 +88,7 @@ public class Sistema {
 
 	public void modificar(Vehiculo vehiculo, String patente) {
 		assert vehiculo != null : "vehiculo no valido";
-		Vehiculo v = flota.get(patente);
+		Vehiculo v= this.flota.get(flota.indexOf(vehiculo));
 		if (v != null) {
 			v.setNroPatente(patente);
 		}
@@ -129,7 +128,7 @@ public class Sistema {
 		else
 			return null;
 	}
-
+	
 	public ArrayList<Cliente> listadoClientes() {
 		return clientes;
 	}
@@ -352,4 +351,28 @@ public class Sistema {
 		return reporte;
 	}
 	
+	public ArrayList<IViaje> listadoOrdenadoViaje() throws CloneNotSupportedException{
+		if(this.viajes!=null && !this.viajes.isEmpty()) {
+		ArrayList<IViaje> clonado=(ArrayList<IViaje>)super.clone();
+		clonado.clear();
+		for(int k=0;k<viajes.size();k++)
+			clonado.add((IViaje)this.viajes.get(k).clone());
+		
+		for (int i=0; i< clonado.size();i++)
+		{
+			int menor =i;
+			for (int j=i+1;j<clonado.size();j++)
+			{
+				if(clonado.get(j).getCosto()<clonado.get(menor).getCosto())
+					menor=j;
+			}
+			
+			IViaje aux=clonado.get(i);
+			clonado.add(i, clonado.get(menor));
+			clonado.add(menor, aux);
+		}
+		return clonado;
+	  }else
+		  throw new CloneNotSupportedException("No hay nada que clonar");
+	}	
 }

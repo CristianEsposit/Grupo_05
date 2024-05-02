@@ -1,6 +1,6 @@
 package modelo;
 
-public abstract class Vehiculo implements IVehiculo {
+public abstract class Vehiculo{
     protected int cantPasajeros;
     protected boolean petFriendly;
     protected boolean baul;
@@ -12,7 +12,7 @@ public abstract class Vehiculo implements IVehiculo {
      * Postcondiciones: retornara el valor de prioridad del vehiculo si cumple con las condiciones del pedido, en caso contrario retorna null .
      * @param pedido Es objeto de tipo Pedido, pedido != null.
      * */
-    @Override
+
     public Integer getPrioridad(Pedido pedido){
         assert pedido != null: "pedido es nulo";
         if(this.verificaCantPasajeros(pedido.getCantidadPasajeros()) && this.verificaTransporteMascota(pedido.hasMascota()) && this.verificaUsoBaul(pedido.hasEquipajeBaul())){
@@ -23,15 +23,15 @@ public abstract class Vehiculo implements IVehiculo {
 
     public abstract Integer calcularPrioridad(int cantPasajeros, boolean baul, boolean mascota);
 
-    @Override
+
     public boolean verificaCantPasajeros(int pasajeros) {
         return pasajeros <= this.cantPasajeros;
     }
-    @Override
+
     public boolean verificaTransporteMascota(boolean petFriendly) {
         return this.petFriendly == petFriendly;
     }
-    @Override
+
     public boolean verificaUsoBaul(boolean baul) {
         return this.baul == baul;
     }

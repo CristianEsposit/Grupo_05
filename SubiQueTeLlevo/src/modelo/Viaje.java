@@ -13,7 +13,7 @@ public class Viaje implements IViaje {
 	private Pedido pedido;
 	private Chofer chofer;
 	private int distancia;
-	private IVehiculo vehiculo;
+	private Vehiculo vehiculo;
 	private String estado="Solicitado";
 	
 	private boolean invariante() {
@@ -77,9 +77,31 @@ public class Viaje implements IViaje {
 	public void setPedido(Pedido pedido) {
 		this.pedido=pedido;	
 	}
+	
+	public Chofer getChofer() {
+		return chofer;
+	}
+	public void setChofer(Chofer chofer) {
+		this.chofer = chofer;
+	}
+	public Vehiculo getVehiculo() {
+		return vehiculo;
+	}
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	public void setDistancia(int distancia) {
+		this.distancia = distancia;
+	}
 	@Override
 	public String toString() {
-		return "chofer: " + chofer + " distancia(KM): " + distancia + " vehiculo: " + vehiculo + "estado:" + estado + 
+		return "chofer: " + chofer + " distancia(KM): " + distancia + " vehiculo: " + vehiculo.toString() + "estado:" + estado + 
 				"Caracteristicas: cantidad de pasajeros: " + this.getPedido().getCantidadPasajeros();
 	}
 
