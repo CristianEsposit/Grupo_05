@@ -44,5 +44,33 @@ public class SinBaul extends DecoratorViaje {
 	public String toString() {
 		return this.getIviaje().toString() + " equipaje manual";
 	}
+	
+	@Override
+	public String getEstado() {
+		return this.getIviaje().getEstado();
+	}
 
+	@Override
+	public Chofer getChofer() {
+		return this.getIviaje().getChofer();
+	}
+
+	@Override
+	public Vehiculo getVehiculo() {
+		return this.getIviaje().getVehiculo();
+	}
+
+	public void setEstado(String estado) {
+		this.getIviaje().setEstado(estado);
+	}
+
+	@Override
+	public void setChofer(Chofer chofer) {
+		this.getIviaje().setChofer(chofer);
+	}
+
+	@Override
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.getIviaje().setVehiculo(vehiculo);
+	}
 }

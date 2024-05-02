@@ -28,6 +28,19 @@ public interface IViaje extends Cloneable {
 	 * <b>Post :</b> Retorna una instancia diferente pero con el mismo estado<br>
 	 * @return Retorna una instancia de viaje
 	 */
+	
+	String getEstado();
+	
+	Chofer getChofer();
+	
+	Vehiculo getVehiculo();
+	
+	void setEstado(String estado);
+	
+	void setChofer(Chofer chofer);
+	
+	void setVehiculo(Vehiculo vehiculo);	
+	
 	public Object clone() throws CloneNotSupportedException;
 	
 	String toString();

@@ -52,4 +52,8 @@ public abstract class Vehiculo implements IVehiculo {
         return nroPatente;
     }
 
+	public void setNroPatente(String nroPatente) {
+		this.nroPatente = nroPatente;
+	}
+
 }

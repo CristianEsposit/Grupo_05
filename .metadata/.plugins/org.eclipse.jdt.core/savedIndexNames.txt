@@ -1,2 +1,0 @@
-INDEX VERSION 1.134+C:\Users\Administrator\Documents\Facultad de Ingenieria\Programacion 3\TPFinal\Subi-que-te-llevo\.metadata\.plugins\org.eclipse.jdt.core
-1865797976.index

@@ -3,17 +3,17 @@ package modelo;
 import java.util.ArrayList;
 
 public class Cliente extends Usuario {
-	private ArrayList<Viaje> viajes = new ArrayList<Viaje>();
+	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
 
 	public Cliente(String nombreReal, String nombreUsuario, String password) {
 		super(nombreReal, nombreUsuario, password);
 	}
 
-	public void agregaViaje(Viaje viaje) {
+	public void agregaViaje(IViaje viaje) {
 		this.viajes.add(viaje);
 	}
 
-	public ArrayList<Viaje> getViajes() {
+	public ArrayList<IViaje> getViajes() {
 		return viajes;
 	}
 

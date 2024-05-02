@@ -17,6 +17,28 @@ public class Usuario {
 		return "Usuario [nombreReal=" + nombreReal + ", nombreUsuario=" + nombreUsuario + ", password=" + password
 				+ "]";
 	}
+
+	public String getNombreReal() {
+		return nombreReal;
+	}
+
+	public void setNombreReal(String nombreReal) {
+		this.nombreReal = nombreReal;
+	}
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 	
 	
 }
