@@ -24,7 +24,7 @@ public class Cliente extends Usuario {
 	
 	public Object clone() throws CloneNotSupportedException{
 		Cliente nCli = (Cliente)super.clone();
-		nCli.viajes = ( ArrayList<Viaje> )this.viajes.clone();
+		nCli.viajes = ( ArrayList<IViaje> )this.viajes.clone();
 		return nCli;
 	}
 
