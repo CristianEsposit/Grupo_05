@@ -9,7 +9,7 @@ public class VehiculoFactory {
      * @param tipoVehiculo El tipo de vehiculo a instanciar.
      * @param patente La patente del vehiculo.
      * */
-    public IVehiculo getVehiculo(String tipoVehiculo,String patente){
+    public Vehiculo getVehiculo(String tipoVehiculo,String patente){
         if(tipoVehiculo == null){
             return null;
         }
