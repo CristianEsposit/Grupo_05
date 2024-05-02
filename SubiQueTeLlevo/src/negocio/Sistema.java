@@ -284,15 +284,9 @@ public class Sistema {
 
 	public void calcularPuntajes(ArrayList<Chofer> choferes) {
 		ArrayList<IViaje> viajes;
-		int kms;
 		int maxKms = 0;
 		int indexMaxChofer = -1;
 		int cantViajes;
-		for(int i = 0;i < choferes.size(); i++) {
-			viajes = choferes.get(i).getViajes();
-			kms = 0;
-			cantViajes = 0;
-			for(int j = 0;j < viajes.size();j++) {
 				kms += viajes.get(j).getDistancia();
 				cantViajes++;
 			}

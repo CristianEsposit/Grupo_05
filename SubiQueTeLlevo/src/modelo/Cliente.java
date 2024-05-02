@@ -21,5 +21,11 @@ public class Cliente extends Usuario {
 	public String toString() {
 		return "Cliente " + super.toString() + "[viajes=" + viajes + "]";
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		Cliente nCli = (Cliente)super.clone();
+		nCli.viajes = ( ArrayList<Viaje> )this.viajes.clone();
+		return nCli;
+	}
 
 }

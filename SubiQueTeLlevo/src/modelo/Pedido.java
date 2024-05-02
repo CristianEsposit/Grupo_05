@@ -73,5 +73,11 @@ public class Pedido {
 	public boolean hasEquipajeBaul() {
 		return equipajeBaul;
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		Pedido nPedido = (Pedido)super.clone();
+		nPedido.cliente = (Cliente)this.cliente.clone();
+		return nPedido;
+	}
 
 }
