@@ -8,8 +8,13 @@ public class Cliente extends Usuario {
 	public Cliente(String nombreReal, String nombreUsuario, String password) {
 		super(nombreReal, nombreUsuario, password);
 	}
-
+	/**
+	 * Agrega un viaje al ArrayList de IViaje del cliente.
+	 * <b>Pre: </b> El parametro viaje no puede ser null.
+	 * @param viaje : Parametro que indica el viaje que se quiere agregar.
+	 */
 	public void agregaViaje(IViaje viaje) {
+		assert viaje != null : "El viaje no es valido.";
 		this.viajes.add(viaje);
 	}
 
