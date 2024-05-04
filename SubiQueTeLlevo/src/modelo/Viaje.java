@@ -10,8 +10,16 @@ import excepciones.FaltaVehiculoException;
  */
 public class Viaje implements IViaje {
 	private static double valorBase=1000;
-	private Pedido pedido;
-	private Chofer chofer;
+
+    /**
+     * @aggregation composite
+     */
+    private Pedido pedido;
+
+    /**
+     * @aggregation shared
+     */
+    private Chofer chofer;
 	private int distancia;
 	private Vehiculo vehiculo;
 	private String estado="Solicitado";
