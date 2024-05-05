@@ -141,6 +141,19 @@ public class Main {
 		} catch (DatosIncorrectosException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		System.out.println("");
+		
+		System.out.println("Reporte de viajes ordenado");
+		ArrayList<IViaje> clon=null;
+		try {
+			clon=sistema.listadoOrdenadoViaje();
+			for(i=0;i<clon.size();i++)
+				System.out.println(clon.get(i).toString());
+		} catch (CloneNotSupportedException e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
 	

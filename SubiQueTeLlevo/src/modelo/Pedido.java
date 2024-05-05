@@ -7,7 +7,7 @@ import excepciones.FechaIncorrectaException;
 import excepciones.PedidoIncoherenteException;
 import excepciones.ZonaInvalidaException;
 
-public class Pedido {
+public class Pedido implements Cloneable{
 	protected LocalDateTime fechaYHora;
 	protected String zona; // Clase Zona?
 	protected boolean mascota;
@@ -76,7 +76,6 @@ public class Pedido {
 	
 	public Object clone() throws CloneNotSupportedException{
 		Pedido nPedido = (Pedido)super.clone();
-		nPedido.cliente = (Cliente)this.cliente.clone();
 		return nPedido;
 	}
 

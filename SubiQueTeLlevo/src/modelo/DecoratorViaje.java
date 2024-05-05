@@ -13,6 +13,7 @@ public abstract class DecoratorViaje implements IViaje {
 	
 
 	public Object clone() throws CloneNotSupportedException {
-		throw new CloneNotSupportedException();
+		IViaje clon=(IViaje)iviaje.clone();
+		return clon;
 	}
 }

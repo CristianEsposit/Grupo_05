@@ -248,10 +248,11 @@ public class Sistema {
 	 */
 	public ArrayList<IViaje> listadoOrdenadoViaje() throws CloneNotSupportedException{
 		if(this.viajes!=null && !this.viajes.isEmpty()) {
-		ArrayList<IViaje> clonado=(ArrayList<IViaje>)super.clone();
+		ArrayList<IViaje> clonado=(ArrayList<IViaje>)viajes.clone();
 		clonado.clear();
 		for(int k=0;k<this.viajes.size();k++)
 			clonado.add((IViaje)this.viajes.get(k).clone());
+		System.out.println(clonado.get(0).toString());
 		for (int i=0; i< clonado.size();i++) {
 			int menor =i;
 			for (int j=i+1;j<clonado.size();j++) {
@@ -262,10 +263,12 @@ public class Sistema {
 			clonado.add(i, clonado.get(menor));
 			clonado.add(menor, aux);
 		}
+		System.out.println("Clon: " + clonado.size());
 		return clonado;
 	  }
-		else
+		else {
 		  throw new CloneNotSupportedException("No hay nada que clonar");
+		  }
 	}
 	/**
 	 * <b>Pre: </b> El parametro chofer no puede ser null y debe estar en la lista de choferes.
@@ -379,8 +382,8 @@ public class Sistema {
 	 *                                pedido
 	 */
 
-	private void asignarVehiculo(ArrayList<Vehiculo> vehiculos, IViaje viaje) throws FaltaVehiculoException {
-		assert vehiculos != null : "El HashMap de Vehiculo debe ser distinto de null";
+	private void asignarVehiculo(ArrayList<Vehiculo> flota, IViaje viaje) throws FaltaVehiculoException {
+		assert flota != null : "El HashMap de Vehiculo debe ser distinto de null";
 		Integer prioridadMax = null;
 		Vehiculo prioritario = null;
 		Integer prioridad = null;

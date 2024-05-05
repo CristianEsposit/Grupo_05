@@ -2,7 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Cloneable{
 	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
 
 	public Cliente(String nombreReal, String nombreUsuario, String password) {
