@@ -14,11 +14,11 @@ public class ChoferPermanente extends ChoferEmpleado{
 	 * nombre != null y nombre != ""<br>
 	 * sueldoBasico > 0, aportes > 0 <br>
 	 * fechaIngreso != null, válida.
-	 * @param dni
-	 * @param nombre
-	 * @param sueldoBasico
-	 * @param aportes
-	 * @param fechaIngreso
+	 * @param dni DNI de chofer
+	 * @param nombre Nombre del chofer
+	 * @param sueldoBasico Sueldo basico del chofer
+	 * @param aportes Aportes del chofer
+	 * @param fechaIngreso Fecha de ingreso del chofer a la lista por primera vez
 	 * @param cantidadHijos
 	 */
 	public ChoferPermanente(String dni, String nombre, double sueldoBasico, double aportes, LocalDate fechaIngreso,
@@ -34,7 +34,7 @@ public class ChoferPermanente extends ChoferEmpleado{
 	public double getSueldo() {
 		double sueldo = super.sueldoBasico;
 		LocalDate fechaActual = LocalDate.now();
-		int antiguedad = fechaActual.getYear() - fechaIngreso.getYear();
+		int antiguedad = Math.round(fechaActual.getYear() - fechaIngreso.getYear());
 		
 		sueldo *= (1 + plusAntiguedad*antiguedad + this.cantidadHijos*plusHijos);
 		sueldo *= 1-aportes;
@@ -69,5 +69,19 @@ public class ChoferPermanente extends ChoferEmpleado{
 	public LocalDate getFechaIngreso() {
 		return fechaIngreso;
 	}
+
+
+	@Override
+	public void modificar(String dni, String nombre, double sueldoBasico, double aportes, int cantHijos) {
+		this.setDni(dni);
+		this.setAportes(aportes);
+		this.setCantidadHijos(cantHijos);
+		this.setSueldoBasico(sueldoBasico);
+		this.setNombre(nombre);
+		
+	}
+
+
+	
 
 }

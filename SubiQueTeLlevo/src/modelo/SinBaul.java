@@ -42,7 +42,7 @@ public class SinBaul extends DecoratorViaje {
 	
 	@Override
 	public String toString() {
-		return this.getIviaje().toString() + " equipaje manual";
+		return this.getIviaje().toString() + " con equipaje manual";
 	}
 	
 	@Override

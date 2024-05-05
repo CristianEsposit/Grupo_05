@@ -1,5 +1,5 @@
 package negocio;
-
+import excepciones.ChoferExistenteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,8 +7,11 @@ import java.util.Set;
 
 import excepciones.CantidadDePasajerosException;
 import excepciones.ClienteExistenteException;
+import excepciones.DNIExistenteException;
+import excepciones.DatosIncorrectosException;
 import excepciones.FaltaChoferException;
 import excepciones.FaltaVehiculoException;
+import excepciones.PatenteExistenteException;
 import excepciones.PedidoIncoherenteException;
 import excepciones.ZonaInvalidaException;
 import modelo.Chofer;
@@ -49,7 +52,7 @@ public class Sistema {
 	 */
 	public void agregar(Cliente cliente) throws ClienteExistenteException {
 		assert cliente != null : "cliente no valido";
-		if (clientes.contains(cliente)) {
+		if (clientes.contains(cliente) || this.consultarCliente(cliente.getNombreUsuario())!=null) {
 			throw new ClienteExistenteException("El cliente no puede agregarse porque ya existe.");
 		} else {
 			this.clientes.add(cliente);
@@ -57,35 +60,36 @@ public class Sistema {
 	}
 	/**
 	 * Modifica un cliente de la lista.<br>
-	 * <b>Pre: </b> El parametro cliente debe ser distinto de null.<br>
 	 * <b>Post: </b> Se modifica el cliente si existe y si no hay problema con el nombre de usuario.
 	 * @param cliente : Parametro que sera modificado en la lista.
 	 * @param nombre : Parametro que modifica el nomrbre real del cliente si no es null.
 	 * @param usuario : Parametro que modifica el nombre de usuario del cliente si no es null.
 	 * @param password : Parametro que modifica el password del cliente si no es null.
-	 * @throws ClienteExistenteException : Excepcion que se lanza si quiero modificar el nombre de usuario por otro que ya esta en la lista. 
+	 * @throws ClienteExistenteException : Excepcion que se lanza si quiero modificar el nombre de usuario por otro que ya esta en la lista.
+	 * @throws DatosIncorrectosException Excepcion que se dispara cuando algun dato ingresado por el usuario es incorrecto para la ejecucion del codigo 
 	 */
 	public void modificar(Cliente cliente, String nombre, String usuario, String password)
-			throws ClienteExistenteException { // que quiero modificar
-		assert cliente != null : "cliente no valido";
-		if (clientes.contains(cliente)) {
-			Cliente c = clientes.get(clientes.indexOf(cliente));
-			if (nombre != null)
-				c.setNombreReal(nombre);
-			if (usuario != null) {
-				int i = 0;
-				while (i < clientes.size() && clientes.get(i).getNombreUsuario() != usuario) {
-					i++;
-				}
-				if (!(i < clientes.size())) // no encontro el cliente
-					c.setNombreUsuario(usuario);
-				else {
-					throw new ClienteExistenteException("El nombre de usuario ya existe");
-				}
-			}
-			if (password != null)
-				c.setPassword(password);
-		}
+			throws ClienteExistenteException,DatosIncorrectosException {
+		if(cliente!=null && this.consultarCliente(cliente.getNombreUsuario())!=null)
+			if(nombre!=null && !nombre.equalsIgnoreCase(""))
+				if(usuario!=null && !usuario.equalsIgnoreCase(""))
+					if(password!=null && !password.equalsIgnoreCase(""))
+						if(this.consultarCliente(usuario)==null) {
+							cliente.setNombreReal(nombre);
+							cliente.setNombreUsuario(usuario);
+							cliente.setPassword(password);
+						}
+						else
+							throw new ClienteExistenteException("El nombre de usuario nuevo ya esta en la lista de clientes");
+					else
+						throw new DatosIncorrectosException("La contrasena debe ser distinta de null y de vacio");
+				else
+					throw new DatosIncorrectosException("El nombre de usuario debe ser distinto de null y de vacio");
+			else
+				throw new DatosIncorrectosException("El nombre de real debe ser distinto de null y de vacio");
+		else
+			throw new DatosIncorrectosException("El cliente a modificar debe ser distinto de null y estar dentro de la lista de clientes");
+							
 	}
 	/**
 	 * Consulta por un cliente.<br>
@@ -95,10 +99,10 @@ public class Sistema {
 	 */
 	public Cliente consultarCliente(String usuario) {
 		int i = 0;
-		while (i < clientes.size() && clientes.get(i).getNombreUsuario() != usuario) {
+		while (i < clientes.size() && !clientes.get(i).getNombreUsuario().equalsIgnoreCase(usuario)) {
 			i++;
 		}
-		if (i < clientes.size()) // no encontro el cliente
+		if (i < clientes.size()) // si encontro el cliente
 			return clientes.get(i);
 		else
 			return null;
@@ -115,17 +119,24 @@ public class Sistema {
 	}
 	/**
 	 * Modifica la patente de un vehiculo.<br>
-	 * <b>Pre: </b> El parametro vehiculo no puede ser null.<br>
 	 * <b>Post: </b> La patente del vechiculo se modifica si existe dicho vehiculo.
 	 * @param vehiculo : Parametro que indica el vechiculo que se quiere modificar.
 	 * @param patente : Parametro que modifica la patente del vehiculo.
+	 * @throws DatosIncorrectosException Excepcion que se dispara cuando algun dato ingresado por el usuario es incorrecto para la ejecucion del codigo
+	 * @throws PatenteExistenteException Excepcion que se dispara cuando la nueva patente ya existe en el listado de vehiculos
 	 */
-	public void modificar(Vehiculo vehiculo, String patente) {
-		assert vehiculo != null : "vehiculo no valido";
-		Vehiculo v= this.flota.get(this.flota.indexOf(vehiculo));
-		if (v != null) {
-			v.setNroPatente(patente);
-		}
+	public void modificar(Vehiculo vehiculo, String patente) throws DatosIncorrectosException, PatenteExistenteException{
+		if(vehiculo!=null && this.consultarVehiculo(vehiculo.getNroPatente())!=null) {
+			Vehiculo v= this.flota.get(this.flota.indexOf(vehiculo));
+			if(patente!=null && !patente.equalsIgnoreCase(""))
+				if(this.consultarVehiculo(patente)==null)
+					v.setNroPatente(patente);
+				else
+					throw new PatenteExistenteException("La patente ya existe en la lista");
+			else
+				throw new DatosIncorrectosException("La patente debe ser distinta de null y debe ser distinta de vacio");
+		}else
+			throw new DatosIncorrectosException("El vehiculo a modifcar debe ser distinto de null y debe estar agregado a la flota");
 	}
 	/**
 	 * Consulta por un vehiculo.<br>
@@ -149,20 +160,17 @@ public class Sistema {
 	 * Agrega un chofer a la lista.<br>
 	 * <b>Pre: </b> El chofer no puede ser null.<br>
 	 * @param chofer : Parametro que sera agregado a la lista de choferes.
+	 * @throws PedidoIncoherenteException Excepcion que se dispara cuando el chofer a ingresar a la lista ya estaba dentro de ella
 	 */
-	public void agregar(Chofer chofer) {
+	public void agregar(Chofer chofer) throws ChoferExistenteException{
 		assert chofer != null : "chofer no valido.";
-		if (!this.choferes.contains(chofer)) {
+		if (!this.choferes.contains(chofer) && this.consultarChofer(chofer.getDni())==null) {
 			this.choferes.add(chofer);
-		}
+		}else
+			throw new ChoferExistenteException("El chofer que se intento agregar ya esta en la lista");
 	}
 
-	/*
-	 * public void modificarChofer(ChoferTemprario chofer, String nombre, String
-	 * dni) {
-	 * 
-	 * }
-	 */
+
 	/**
 	 * Consulta por un chofer.<br>
 	 * <b>Pre: </b> El parametro dni no puede ser null ni vacio.<br>
@@ -176,10 +184,40 @@ public class Sistema {
 		while (i < choferes.size() && choferes.get(i).getDni() != dni) {
 			i++;
 		}
-		if (i < choferes.size()) // no encontro el cliente
+		if (i < choferes.size()) // si encontro el cliente
 			return choferes.get(i);
 		else
 			return null;
+	}
+	//Aca puse que se puede modificar el dni por si se equivoco cuando se ingreso o por esas cosas
+	/**
+	 * Modifica el elemento de la lista de choferes
+	 * @param viejo Chofer a modificar
+	 * @param dni DNI del chofer
+	 * @param nombre Nombre del chofer
+	 * @param sueldoBasico Sueldo basico del chofer
+	 * @param aportes Aportes del chofer
+	 * @param cantHijos Cantidad de hijo del chofer
+	 * @throws DatosIncorrectosException Excepcion que se dispara cuando alguno de los parametros no son aceptables para la modificacion
+	 * @throws DNIExistenteException Excepcion que se dispara cuando el dni nuevo ya existe en la lista de choferes
+	 */
+	public void modificarChofer(Chofer viejo,String dni,String nombre,double sueldoBasico,double aportes,int cantHijos) throws DatosIncorrectosException, DNIExistenteException{
+		if(viejo!=null && choferes.contains(viejo))
+			if(dni!=null && !dni.equalsIgnoreCase(""))
+				if(nombre!=null && !nombre.equalsIgnoreCase(""))
+					if(sueldoBasico>0 && aportes>0 && cantHijos>-1)
+						if(viejo.getDni().equalsIgnoreCase(dni) || this.consultarChofer(dni)==null)
+							viejo.modificar(dni,nombre,sueldoBasico,aportes,cantHijos);
+						else
+							throw new DNIExistenteException("El dni a modificar ya existe en la lista de choferes");
+					else
+						throw new DatosIncorrectosException("Tanto el sueldo basico y los aportes deben ser mayores a cero y la cantidad de hijos deben ser un numero natural");
+				else
+					throw new DatosIncorrectosException("El nombre debe ser distinto de null y de vacio");
+			else
+				throw new DatosIncorrectosException("El DNI debe ser distinto de null y de vacio");
+		else
+			throw new DatosIncorrectosException("El chofer a modificar debe estar dentro de la lista de choferes y debe ser distinto de null");
 	}
 	/**
 	 *
@@ -275,17 +313,13 @@ public class Sistema {
 	 */
 	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
 			boolean equipajeBaul, Cliente cliente, int distancia) {
-		assert fechaYHora != null : "fecha invalida";
-		assert zona != null : "zona no puede ser null";
-		assert cantPasajeros > 0 : "cantidad de pasajeros > a 0";
-		assert cliente != null : "cliente no valido";
-		assert distancia > 0 : "distancia no valida.";
 		Pedido pedido = null;
 		try {
 			pedido = new Pedido(fechaYHora, zona, mascota, cantPasajeros, equipajeBaul, cliente);
 			IViaje viaje = solicitarViaje(pedido, distancia);
 			this.asignarVehiculo(this.flota, viaje);
 			this.asignarChofer(this.choferes, viaje);
+			flota.remove(flota.indexOf(viaje.getVehiculo()));
 			this.viajes.add(viaje);
 			cliente.agregaViaje(viaje);
 		} catch(FaltaChoferException e){
@@ -313,7 +347,7 @@ public class Sistema {
 	 *                              disponible
 	 */
 
-	public void asignarChofer(ArrayList<Chofer> choferes, IViaje viaje) throws FaltaChoferException {
+	private void asignarChofer(ArrayList<Chofer> choferes, IViaje viaje) throws FaltaChoferException {
 		int n = choferes.size();
 		Chofer chofer;
 		assert choferes != null : "El ArrayList debe ser distinto de null";
@@ -345,14 +379,14 @@ public class Sistema {
 	 *                                pedido
 	 */
 
-	public void asignarVehiculo(ArrayList<Vehiculo> vehiculos, IViaje viaje) throws FaltaVehiculoException {
+	private void asignarVehiculo(ArrayList<Vehiculo> vehiculos, IViaje viaje) throws FaltaVehiculoException {
 		assert vehiculos != null : "El HashMap de Vehiculo debe ser distinto de null";
 		Integer prioridadMax = null;
 		Vehiculo prioritario = null;
 		Integer prioridad = null;
 		for(int i = 0; i<flota.size(); i++) {
 			prioridad = flota.get(i).getPrioridad(viaje.getPedido());
-            if(prioridad != null && prioridad > prioridadMax) {
+            if(prioridadMax==null || (prioridad != null && prioridad > prioridadMax)) {
                 prioridadMax = prioridad;
                 prioritario = flota.get(i);
             }
@@ -363,7 +397,6 @@ public class Sistema {
 		else {
 			viaje.setVehiculo(prioritario);
 			viaje.setEstado("Con vehiculo");
-			vehiculos.remove(vehiculos.indexOf(prioritario));
 			assert viaje.getVehiculo() != null
 					: "El atributo vehiculo debe guardar la referencia del vehiculo asignado al viaje";
 		}
@@ -426,7 +459,7 @@ public class Sistema {
 	 * @param distancia : Parametro que indica la distancia del viaje.
 	 * @return Devuelve el viaje confeccionado.
 	 */
-	public IViaje solicitarViaje(Pedido pedido, int distancia) {
+	private IViaje solicitarViaje(Pedido pedido, int distancia) {
 		return ViajeDecorar.agregarCapas(pedido, distancia);
 	}
 	/**
@@ -487,8 +520,8 @@ public class Sistema {
 	/**
 	 * Genera el reporte de los viajes realizados por un chofer en un periodo de
 	 * dias.<br>
-	 * <b>Pre: </b> El parametro chofer no puede ser null.
-	 * El parametro inicio y fin no puden ser null.
+	 * <b>Pre: </b>
+	 * Si las fechas son distintas de null ya fueron validadas<br>
 	 * @param chofer : Parametro que indica el chofer del cual quiero generar el
 	 * reporte de los viajes realizados.
 	 * @param inicio : Fecha de inicio del periodo de dias del que quiero
@@ -498,51 +531,60 @@ public class Sistema {
 	 * @return Devuelve un ArrayList de String con los viajes que relizo el chofer
 	 * en ese periodo de dias.
 	 * Si no hizo viajes en ese periodo de dias devuelve un ArrayList vacio.
+	 * @throws DatosIncorrectosException Excepcion que se dispara cuando las fechas son null o si el chofer es null o no estaba agregado a la lista
 	 */
-	public ArrayList<String> reporteViajesPorChofer(Chofer chofer,LocalDateTime inicio,LocalDateTime fin) {
-		assert chofer != null : "chofer no valido.";
-		assert inicio != null : "fecha no valida.";
-		assert fin != null : "fecha no valida.";
-		ArrayList<String> reporte = new ArrayList<String>();
-		ArrayList<IViaje> viajes = chofer.getViajes();
-		int i = 0;
-		while(viajes != null && i<viajes.size() && viajes.get(i).getPedido().getFecha().isBefore(fin)){
-			if(viajes.get(i).getPedido().getFecha().isAfter(inicio)) {				
-				reporte.add(viajes.get(i).toString());
-			}
-			i++;
-		}
-		return reporte;
+	public ArrayList<String> reporteViajesPorChofer(Chofer chofer,LocalDateTime inicio,LocalDateTime fin)throws DatosIncorrectosException {
+		assert inicio != null : "fecha de inicio debe ser distinta de null.";
+		assert fin != null : "fecha de finalizacion debe ser distinta de null.";
+		if(fin!=null && inicio!=null)
+			if(chofer!=null && this.consultarChofer(chofer.getDni())!=null) {
+				ArrayList<String> reporte = new ArrayList<String>();
+				ArrayList<IViaje> viajes = chofer.getViajes();
+				int i = 0;
+				while(viajes != null && i<viajes.size() && viajes.get(i).getPedido().getFecha().isBefore(fin)){
+					if(viajes.get(i).getPedido().getFecha().isAfter(inicio)) {				
+						reporte.add(viajes.get(i).toString());
+					}
+					i++;
+				}
+				return reporte;
+			}else
+				throw new DatosIncorrectosException("El chofer debe ser distinto de null y debe estar en la lista de choferes");
+		else
+			throw new DatosIncorrectosException("Las fechas debe ser distintas de null");
 	}
 	/**
 	 * Genera el reporte de los viajes realizados por un cliente en un periodo de
 	 * dias.<br>
-	 * <b>Pre: </b> El parametro cliente no puede ser null.
-	 * El parametro inicio y fin no puden ser null.
+	 * <b>Pre: </b> 
+	 * El parametro inicio y fin si son distintos de null ya estan validados.
 	 * @param cliente : Parametro que indica el cliente del cual quiero generar el
 	 * reporte de los viajes realizados.
 	 * @param inicio : Fecha de inicio del periodo de dias del que quiero
 	 * obtener los viajes.
 	 * @param fin : Fecha de finalizacion del periodo de dias del que
 	 * quiero obtener los viajes.
+	 * @throws DatosIncorrectosException Excepcion que se dispara cuando las fechas son null o si el chofer es null o no estaba agregado a la lista
 	 * @return Devuelve un ArrayList de String con los viajes que relizo el cliente
 	 * en ese periodo de dias.
 	 * Si no hizo viajes en ese periodo de dias devuelve un ArrayList vacio.
 	 */
-	public ArrayList<String> reporteViajesPorCliente(Cliente cliente,LocalDateTime inicio,LocalDateTime fin) {
-		assert cliente != null : "chofer no valido.";
-		assert inicio != null : "fecha no valida.";
-		assert fin != null : "fecha no valida.";
-		ArrayList<String> reporte = new ArrayList<String>();
-		ArrayList<IViaje> viajes = cliente.getViajes();
-		int i = 0;
-		while(viajes != null && i<viajes.size() && viajes.get(i).getPedido().getFecha().isBefore(fin)){
+	public ArrayList<String> reporteViajesPorCliente(Cliente cliente,LocalDateTime inicio,LocalDateTime fin) throws DatosIncorrectosException{
+		if(inicio!=null && fin!=null)
+		if(cliente!=null && this.consultarCliente(cliente.getNombreUsuario())!=null) {
+			ArrayList<String> reporte = new ArrayList<String>();
+			ArrayList<IViaje> viajes = cliente.getViajes();
+			int i = 0;
+			while(viajes != null && i<viajes.size() && viajes.get(i).getPedido().getFecha().isBefore(fin)){
 			if(viajes.get(i).getPedido().getFecha().isAfter(inicio)) {				
 				reporte.add(viajes.get(i).toString());
 			}
 			i++;
-		}
-		return reporte;
+			}
+			return reporte;
+		}else
+			throw new DatosIncorrectosException("El cliente debe ser distinto de null y estar agregado a la lista de clientes");
+		else
+			throw new DatosIncorrectosException("Las fechas de inicio y de fin deben ser distintas de null");
 	}
-
 }

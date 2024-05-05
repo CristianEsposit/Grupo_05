@@ -6,8 +6,8 @@ public class ChoferContratado extends Chofer {
 	/**
 	 * <b>Pre</b> <br>
 	 * dni != null, dni != "" , nombre != null, nombre != ""
-	 * @param dni
-	 * @param nombre
+	 * @param dni DNI del chofer
+	 * @param nombre Nombre del chofer
 	 */
 	public ChoferContratado(String dni, String nombre) {
 		super(dni, nombre);
@@ -26,5 +26,10 @@ public class ChoferContratado extends Chofer {
 		return gananciaViaje;
 	}
 	
-	// O hacer el getSueldo desde el sistema, con el listado
+	@Override
+	public void modificar(String dni, String nombre, double sueldoBasico, double aportes, int cantHijos) {
+		this.setDni(dni);
+		this.setNombre(nombre);
+	}
+	
 }

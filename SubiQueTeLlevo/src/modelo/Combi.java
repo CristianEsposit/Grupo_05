@@ -22,4 +22,9 @@ public class Combi extends Vehiculo {
         return cantPasajeros*10 + 100 * (baul? 1:0);
     }
 
+	@Override
+	public String toString() {
+		return "Combi nroPatente=" + nroPatente;
+	}
+
 }

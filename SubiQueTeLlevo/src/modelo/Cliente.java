@@ -24,7 +24,7 @@ public class Cliente extends Usuario {
 
 	@Override
 	public String toString() {
-		return "Cliente " + super.toString() + "[viajes=" + viajes + "]";
+		return super.toString() + " Listado de viajes  " + viajes;
 	}
 	
 	public Object clone() throws CloneNotSupportedException{
