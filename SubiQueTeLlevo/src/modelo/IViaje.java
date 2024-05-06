@@ -1,6 +1,6 @@
 package modelo;
 
-public interface IViaje extends Cloneable {
+public interface IViaje extends Cloneable,Comparable<IViaje> {
 	/**
 	 * Devuelve el costo del viaje<br>
 	 * <b>Pre: </b> El valorBase de viaje debe ser mayor a cero<br>

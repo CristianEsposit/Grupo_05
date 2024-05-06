@@ -34,7 +34,7 @@ public class ChoferPermanente extends ChoferEmpleado{
 	public double getSueldo() {
 		double sueldo = super.sueldoBasico;
 		LocalDate fechaActual = LocalDate.now();
-		int antiguedad = Math.round(fechaActual.getYear() - fechaIngreso.getYear());
+		int antiguedad = fechaActual.getYear() - fechaIngreso.getYear();
 		
 		sueldo *= (1 + plusAntiguedad*antiguedad + this.cantidadHijos*plusHijos);
 		sueldo *= 1-aportes;

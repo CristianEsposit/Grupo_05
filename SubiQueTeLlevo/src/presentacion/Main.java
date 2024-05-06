@@ -144,17 +144,19 @@ public class Main {
 		
 		System.out.println("");
 		
-		System.out.println("Reporte de viajes ordenado");
+		System.out.println("Reporte de viajes ordenado "+ sistema.getLViajes().size());
 		ArrayList<IViaje> clon=null;
 		try {
-			clon=sistema.listadoOrdenadoViaje();
+			clon = sistema.listadoOrdenadoViaje();
 			for(i=0;i<clon.size();i++)
 				System.out.println(clon.get(i).toString());
 		} catch (CloneNotSupportedException e) {
-			System.out.println(e.getMessage());
+			throw new InternalError(e.toString());
 		}
 		
+		System.out.println("dahsasio");
 	}
+	
 	
 	
 }

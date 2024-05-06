@@ -1,6 +1,6 @@
 package modelo;
 
-public abstract class DecoratorViaje implements IViaje {
+public abstract class DecoratorViaje implements IViaje,Comparable<IViaje> {
 	IViaje iviaje;
 
 	public IViaje getIviaje() {
@@ -13,7 +13,8 @@ public abstract class DecoratorViaje implements IViaje {
 	
 
 	public Object clone() throws CloneNotSupportedException {
-		IViaje clon=(IViaje)iviaje.clone();
+		IViaje clon=(IViaje)super.clone();
 		return clon;
 	}
+	
 }

@@ -39,8 +39,8 @@ public class ZonaPeligrosa extends DecoratorViaje {
 
 	public Object clone() throws CloneNotSupportedException {
 		IViaje clon=(IViaje)super.clone(); 
-		clon=(IViaje)this.getIviaje().clone();
-		//clon=new ZonaPeligrosa(clon);
+		clon = (IViaje)this.getIviaje().clone();
+		clon=new ZonaPeligrosa(clon);
 		return clon;
 	}
 
@@ -76,5 +76,13 @@ public class ZonaPeligrosa extends DecoratorViaje {
 	@Override
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.getIviaje().setVehiculo(vehiculo);
+	}
+	
+	public int compareTo(IViaje o) {
+		if(this.getIviaje().getCosto() < o.getCosto())
+			return -1;
+		else if(this.getIviaje().getCosto() > o.getCosto())
+			return 1;
+		else return 0;
 	}
 }

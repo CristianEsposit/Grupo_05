@@ -34,8 +34,11 @@ public class SinMascota extends DecoratorViaje {
 		
 	}
 
-	public Object clone() throws CloneNotSupportedException{
-		return this.getIviaje().clone();
+	public Object clone() throws CloneNotSupportedException {
+		IViaje clon=(IViaje)super.clone(); 
+		clon = (IViaje)this.getIviaje().clone();
+		clon=new SinMascota(clon);
+		return clon;
 	}
 	
 	@Override
@@ -71,6 +74,14 @@ public class SinMascota extends DecoratorViaje {
 	@Override
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.getIviaje().setVehiculo(vehiculo);
+	}
+	
+	public int compareTo(IViaje o) {
+		if(this.getIviaje().getCosto() < o.getCosto())
+			return -1;
+		else if(this.getIviaje().getCosto() > o.getCosto())
+			return 1;
+		else return 0;
 	}
 
 }

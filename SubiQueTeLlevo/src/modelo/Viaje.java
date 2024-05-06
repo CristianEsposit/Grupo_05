@@ -8,7 +8,7 @@ import excepciones.FaltaVehiculoException;
 /**
  * <b>Invariante de clase: </b> El estado de un viaje es correcto si tiene un pedido(referencia no nula)<br>
  */
-public class Viaje implements IViaje {
+public class Viaje implements IViaje{
 	private static double valorBase=1000;
 	private Pedido pedido;
 	private Chofer chofer;
@@ -104,5 +104,12 @@ public class Viaje implements IViaje {
 		return "Chofer asignado " + chofer + " distancia(KM)= " + distancia + " vehiculo= " + vehiculo.toString() + " Estado=" + estado + 
 				" Caracteristicas: cantidad de pasajeros " + this.getPedido().getCantidadPasajeros()+",";
 	}
-
+	@Override
+	public int compareTo(IViaje o) {
+		if(this.getCosto() < o.getCosto())
+			return -1;
+		else if(this.getCosto() > o.getCosto())
+			return 1;
+		else return 0;
+	}
 }
