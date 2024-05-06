@@ -21,6 +21,8 @@ import modelo.Pedido;
 import modelo.Vehiculo;
 import modelo.Viaje;
 import modelo.ViajeDecorar;
+import java.util.Collections;
+import java.util.Comparator;
 /**
  * Clase que representa al sistema. Contiene la totalidad de vehiculos, de choferes, de clientes y de los viajes que realiza la empresa.
  */
@@ -248,22 +250,17 @@ public class Sistema {
 	 */
 	public ArrayList<IViaje> listadoOrdenadoViaje() throws CloneNotSupportedException{
 		if(this.viajes!=null && !this.viajes.isEmpty()) {
-		ArrayList<IViaje> clonado=(ArrayList<IViaje>)viajes.clone();
+		ArrayList<IViaje> clonado=(ArrayList<IViaje>)viajes.clone(); /*[0,1,0,2,1] -> [1,0,2,1] -> [0,1,0,2,1]*/ 
 		clonado.clear();
 		for(int k=0;k<this.viajes.size();k++)
 			clonado.add((IViaje)this.viajes.get(k).clone());
-		System.out.println(clonado.get(0).toString());
-		for (int i=0; i< clonado.size();i++) {
-			int menor =i;
-			for (int j=i+1;j<clonado.size();j++) {
-				if(clonado.get(j).getCosto()<clonado.get(menor).getCosto())
-					menor=j;
-			}
-			IViaje aux=clonado.get(i);
-			clonado.add(i, clonado.get(menor));
-			clonado.add(menor, aux);
-		}
-		System.out.println("Clon: " + clonado.size());
+		
+		System.out.println(clonado.size());
+		
+		Collections.sort(clonado, Collections.reverseOrder());
+		
+		//System.out.println("Clon: " + clonado.size());
+		
 		return clonado;
 	  }
 		else {
@@ -589,5 +586,9 @@ public class Sistema {
 			throw new DatosIncorrectosException("El cliente debe ser distinto de null y estar agregado a la lista de clientes");
 		else
 			throw new DatosIncorrectosException("Las fechas de inicio y de fin deben ser distintas de null");
+	}
+	
+	public ArrayList<IViaje> getLViajes(){
+		return this.viajes;
 	}
 }

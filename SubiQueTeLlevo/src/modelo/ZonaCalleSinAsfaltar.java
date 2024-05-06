@@ -37,10 +37,11 @@ public class ZonaCalleSinAsfaltar extends DecoratorViaje {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		
-		return this.getIviaje().clone();
+		IViaje clon=(IViaje)super.clone(); 
+		clon = (IViaje)this.getIviaje().clone();
+		clon=new ZonaCalleSinAsfaltar(clon);
+		return clon;
 	}
-
 	@Override
 	public String toString() {
 		return this.getIviaje().toString() + " en calle sin asfaltar";
@@ -73,5 +74,13 @@ public class ZonaCalleSinAsfaltar extends DecoratorViaje {
 	@Override
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.getIviaje().setVehiculo(vehiculo);
+	}
+	
+	public int compareTo(IViaje o) {
+		if(this.getIviaje().getCosto() < o.getCosto())
+			return -1;
+		else if(this.getIviaje().getCosto() > o.getCosto())
+			return 1;
+		else return 0;
 	}
 }
