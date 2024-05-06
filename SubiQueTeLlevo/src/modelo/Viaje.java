@@ -10,16 +10,8 @@ import excepciones.FaltaVehiculoException;
  */
 public class Viaje implements IViaje {
 	private static double valorBase=1000;
-
-    /**
-     * @aggregation composite
-     */
-    private Pedido pedido;
-
-    /**
-     * @aggregation shared
-     */
-    private Chofer chofer;
+	private Pedido pedido;
+	private Chofer chofer;
 	private int distancia;
 	private Vehiculo vehiculo;
 	private String estado="Solicitado";
@@ -109,8 +101,8 @@ public class Viaje implements IViaje {
 	}
 	@Override
 	public String toString() {
-		return "chofer: " + chofer + " distancia(KM): " + distancia + " vehiculo: " + vehiculo.toString() + "estado:" + estado + 
-				"Caracteristicas: cantidad de pasajeros: " + this.getPedido().getCantidadPasajeros();
+		return "Chofer asignado " + chofer + " distancia(KM)= " + distancia + " vehiculo= " + vehiculo.toString() + " Estado=" + estado + 
+				" Caracteristicas: cantidad de pasajeros " + this.getPedido().getCantidadPasajeros()+",";
 	}
 
 }

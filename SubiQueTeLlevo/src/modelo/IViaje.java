@@ -24,7 +24,6 @@ public interface IViaje extends Cloneable {
 	int getDistancia();
 	/**
 	 * Retorna el clon de IViaje<br>
-	 * <b>Pre :</b> FALTA PONER<br>
 	 * <b>Post :</b> Retorna una instancia diferente pero con el mismo estado<br>
 	 * @return Retorna una instancia de viaje
 	 */

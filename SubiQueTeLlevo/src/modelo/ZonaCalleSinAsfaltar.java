@@ -37,6 +37,7 @@ public class ZonaCalleSinAsfaltar extends DecoratorViaje {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
+		
 		return this.getIviaje().clone();
 	}
 

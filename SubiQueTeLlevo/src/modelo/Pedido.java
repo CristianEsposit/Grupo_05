@@ -3,10 +3,11 @@ package modelo;
 import java.time.LocalDateTime;
 
 import excepciones.CantidadDePasajerosException;
+import excepciones.FechaIncorrectaException;
 import excepciones.PedidoIncoherenteException;
 import excepciones.ZonaInvalidaException;
 
-public class Pedido {
+public class Pedido implements Cloneable{
 	protected LocalDateTime fechaYHora;
 	protected String zona; // Clase Zona?
 	protected boolean mascota;
@@ -15,21 +16,20 @@ public class Pedido {
 	protected Cliente cliente;
 
 	/**
-	 * <b>Pre</b> <br>
-	 * fechaIngreso != null, válida.<br>
-	 * zona != null <br>
-	 * cantidadPasajeros>0; <br>
-	 * equipajeBaul!= null ^ mascota != null
+	 * Constructor de pedido
 	 * 
-	 * @param fechaYHora
-	 * @param zona
-	 * @param mascota
-	 * @param cantidadPasajeros
-	 * @param equipajeBaul
-	 * @throws PedidoIncoherenteException
+	 * @param fechaYHora Fecha en la que se realizo el pedido
+	 * @param zona Zona por la que pasara el viaje
+	 * @param mascota Si lleva mascota
+	 * @param cantidadPasajeros Cantidad de pasajeros
+	 * @param equipajeBaul Si usa el baul
+	 * @throws PedidoIncoherenteException Excepcion que se dispara cuando el cliente realiza un pedido que no cumple la tabla de prestaciones de vehiculos 
 	 */
 	public Pedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantidadPasajeros, boolean equipajeBaul,
 			Cliente cliente) throws PedidoIncoherenteException {
+		if(fechaYHora==null)
+			throw new FechaIncorrectaException("La fecha debe ser distinta de null");
+		else
 		if (cantidadPasajeros > 10)
 			throw new CantidadDePasajerosException("Numero de pasajeros inválido");
 		else if (cantidadPasajeros > 4 && mascota)
@@ -76,7 +76,6 @@ public class Pedido {
 	
 	public Object clone() throws CloneNotSupportedException{
 		Pedido nPedido = (Pedido)super.clone();
-		nPedido.cliente = (Cliente)this.cliente.clone();
 		return nPedido;
 	}
 

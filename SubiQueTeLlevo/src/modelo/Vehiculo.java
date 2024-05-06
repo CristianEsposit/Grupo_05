@@ -55,5 +55,6 @@ public abstract class Vehiculo{
 	public void setNroPatente(String nroPatente) {
 		this.nroPatente = nroPatente;
 	}
-
+	
+	public abstract String toString();
 }

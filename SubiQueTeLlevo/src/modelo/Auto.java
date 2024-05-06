@@ -25,4 +25,8 @@ public class Auto extends Vehiculo {
         }
     }
 
+    @Override
+	public String toString() {
+		return "Auto nroPatente=" + nroPatente;
+	}
 }

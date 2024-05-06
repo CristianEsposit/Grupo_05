@@ -24,4 +24,8 @@ public class Moto extends Vehiculo {
         return null;
     }
 
+    @Override
+	public String toString() {
+		return "Moto nroPatente=" + nroPatente;
+	}
 }

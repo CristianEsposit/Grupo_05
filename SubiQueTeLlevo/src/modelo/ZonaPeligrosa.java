@@ -38,7 +38,10 @@ public class ZonaPeligrosa extends DecoratorViaje {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		return this.getIviaje().clone();
+		IViaje clon=(IViaje)super.clone(); 
+		clon=(IViaje)this.getIviaje().clone();
+		//clon=new ZonaPeligrosa(clon);
+		return clon;
 	}
 
 	@Override
