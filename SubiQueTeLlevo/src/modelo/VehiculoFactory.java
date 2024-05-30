@@ -10,17 +10,18 @@ public class VehiculoFactory {
      * @param patente La patente del vehiculo.
      * */
     public Vehiculo getVehiculo(String tipoVehiculo,String patente){
+    	Vehiculo respuesta = null;
         if(tipoVehiculo == null){
-            return null;
+            respuesta = null;
         }
         if(tipoVehiculo.equalsIgnoreCase("MOTO")){
-            return new Moto(patente);
+            respuesta = new Moto(patente);
         } else if (tipoVehiculo.equalsIgnoreCase("AUTO")) {
-            return new Auto(patente);
+            respuesta = new Auto(patente);
         } else if (tipoVehiculo.equalsIgnoreCase("COMBI")) {
-            return new Combi(patente);
+            respuesta = new Combi(patente);
         }
-        return null;
+        return respuesta;
     }
 
 }
