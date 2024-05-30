@@ -20,7 +20,7 @@ import modelo.IViaje;
 import modelo.Pedido;
 import modelo.Vehiculo;
 import modelo.Viaje;
-import modelo.ViajeDecorar;
+import modelo.ViajeFactory;
 import java.util.Collections;
 import java.util.Comparator;
 /**
@@ -310,11 +310,14 @@ public class Sistema {
 	 * @param equipajeBaul : Parametro que indica si requiere baul o no.
 	 * @param cliente : Parametro que indica el cliente que realiza el pedido.
 	 * @param distancia : Parametro que indica la distancia del viaje.
+	 * @throws FaltaChoferException : Se dispara cuando no existen choferes.
+	 * @throws FaltaVehiculoException : Se dispara cuando no existen vehiculos que puedan cumplir con el pedido.
+	 * @throws PedidoIncoherenteException : Se dispara cuando el pedido no cumple con la tabla de vehiculos.
 	 */
 	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
-			boolean equipajeBaul, Cliente cliente, int distancia) {
+			boolean equipajeBaul, Cliente cliente, int distancia) throws FaltaChoferException, FaltaVehiculoException, PedidoIncoherenteException {
 		Pedido pedido = null;
-		try {
+		//try {
 			pedido = new Pedido(fechaYHora, zona, mascota, cantPasajeros, equipajeBaul, cliente);
 			IViaje viaje = solicitarViaje(pedido, distancia);
 			this.asignarVehiculo(this.flota, viaje);
@@ -322,7 +325,7 @@ public class Sistema {
 			flota.remove(flota.indexOf(viaje.getVehiculo()));
 			this.viajes.add(viaje);
 			cliente.agregaViaje(viaje);
-		} catch(FaltaChoferException e){
+		/*} catch(FaltaChoferException e){
 			System.out.println(e.getMessage());
 		} catch (FaltaVehiculoException e) {
 			System.out.println(e.getMessage());
@@ -332,7 +335,7 @@ public class Sistema {
 			System.out.println(e.getMessage());
 		} catch (PedidoIncoherenteException e) {
 			System.out.println(e.getMessage());
-		}
+		}*/
 	}
 
 	/**
@@ -443,12 +446,10 @@ public class Sistema {
 	 * @param cliente : Parametro que indica el cliente del cual quiere verse los
 	 * viajes realizados.
 	 */
-	public void verHistorialDeViaje(Cliente cliente) {
+	public ArrayList<IViaje> verHistorialDeViaje(Cliente cliente) {
 		assert cliente != null : "El cliente no es valido.";
 		ArrayList<IViaje> viajesCliente = cliente.getViajes();
-		for (int i = 0; i < viajesCliente.size(); i++) {
-			System.out.println(viajesCliente.get(i));
-		}
+		return viajesCliente;
 	}
 	/**
 	 * Solicita un viaje a partir de un pedido aceptado.<br>
@@ -460,7 +461,7 @@ public class Sistema {
 	 * @return Devuelve el viaje confeccionado.
 	 */
 	private IViaje solicitarViaje(Pedido pedido, int distancia) {
-		return ViajeDecorar.agregarCapas(pedido, distancia);
+		return ViajeFactory.agregarCapas(pedido, distancia);
 	}
 	/**
 	 * Calcula los puntajes de todos los choferes.<br>

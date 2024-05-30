@@ -35,9 +35,8 @@ public class ConMascota extends DecoratorViaje {
 	}
 
 	public Object clone() throws CloneNotSupportedException {
-		IViaje clon=(IViaje)super.clone(); 
-		clon = (IViaje)this.getIviaje().clone();
-		clon=new ConMascota(clon);
+		ConMascota clon=(ConMascota)super.clone(); 
+		clon.setIviaje((IViaje)this.getIviaje().clone());
 		return clon;
 	}
 	

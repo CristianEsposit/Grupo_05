@@ -1,6 +1,6 @@
 package modelo;
 
-public class ViajeDecorar {
+public class ViajeFactory {
 	/**
 	 * Añade las capas para encapsular Viaje<br>
 	 * <b>Pre: </b> El pedido debe ser distinto de null y debio haber sido validado, y la distancia debe ser mayor a cero<br>
