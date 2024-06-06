@@ -1,6 +1,10 @@
 package modelo;
 
 public class Auto extends Vehiculo {
+	
+	public Auto() { //para serializar
+		
+	}
 
     public Auto(String nroPatente){
         this.cantPasajeros = 4;

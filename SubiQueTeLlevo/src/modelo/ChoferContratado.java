@@ -1,7 +1,11 @@
 package modelo;
 
 public class ChoferContratado extends Chofer {
-	protected static double gananciaViaje = 0.25;	
+	protected static double gananciaViaje = 0.25;
+	
+	public ChoferContratado() { //para serializar
+		
+	}
 	
 	/**
 	 * <b>Pre</b> <br>
@@ -26,6 +30,10 @@ public class ChoferContratado extends Chofer {
 		return gananciaViaje;
 	}
 	
+	public static void setGananciaViaje(double gananciaViaje) { //para serializar
+		ChoferContratado.gananciaViaje = gananciaViaje;
+	}
+
 	@Override
 	public void modificar(String dni, String nombre, double sueldoBasico, double aportes, int cantHijos) {
 		this.setDni(dni);

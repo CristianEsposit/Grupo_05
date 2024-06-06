@@ -1,6 +1,10 @@
 package modelo;
 
 public class Moto extends Vehiculo {
+	
+	public Moto() { //para serializar
+		
+	}
 
     public Moto(String nroPatente){
         this.cantPasajeros = 1;
@@ -28,4 +32,6 @@ public class Moto extends Vehiculo {
 	public String toString() {
 		return "Moto nroPatente=" + nroPatente;
 	}
+    
+    
 }

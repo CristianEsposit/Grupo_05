@@ -36,6 +36,10 @@ public class Viaje implements IViaje{
 	 * @param distancia Distancia total del recorrido del viaje
 	 */
 
+	public Viaje() { //para serializar
+		
+	}
+	
 	public Viaje(Pedido pedido, int distancia) {
 		super();
 		assert distancia>-1: "La distancia debe ser positiva";
@@ -112,4 +116,9 @@ public class Viaje implements IViaje{
 			return 1;
 		else return 0;
 	}
+	
+	public static double getValorBase() { //para serializar
+		return valorBase;
+	}
+	
 }

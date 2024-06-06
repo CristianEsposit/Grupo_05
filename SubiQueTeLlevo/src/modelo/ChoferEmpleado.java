@@ -2,7 +2,12 @@ package modelo;
 
 public abstract class ChoferEmpleado extends Chofer {
 	protected double sueldoBasico;
-	protected double aportes;	
+	protected double aportes;
+	
+	public ChoferEmpleado() { //para serializar
+		
+	}
+	
 	/**
 	 * <b>Pre: </b><br>
 	 * Dni != null y dni != "" <br>
