@@ -1,11 +1,9 @@
 package negocio;
-import excepciones.ChoferExistenteException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.Collections;
 
-import excepciones.CantidadDePasajerosException;
+import excepciones.ChoferExistenteException;
 import excepciones.ClienteExistenteException;
 import excepciones.DNIExistenteException;
 import excepciones.DatosIncorrectosException;
@@ -13,16 +11,13 @@ import excepciones.FaltaChoferException;
 import excepciones.FaltaVehiculoException;
 import excepciones.PatenteExistenteException;
 import excepciones.PedidoIncoherenteException;
-import excepciones.ZonaInvalidaException;
 import modelo.Chofer;
 import modelo.Cliente;
 import modelo.IViaje;
 import modelo.Pedido;
 import modelo.Vehiculo;
-import modelo.Viaje;
 import modelo.ViajeFactory;
-import java.util.Collections;
-import java.util.Comparator;
+import simulacion.Simulacion;
 /**
  * Clase que representa al sistema. Contiene la totalidad de vehiculos, de choferes, de clientes y de los viajes que realiza la empresa.
  */
@@ -32,6 +27,7 @@ public class Sistema {
 	protected ArrayList<Chofer> choferes = new ArrayList<Chofer>();
 	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
+	private Simulacion simulacion;
 
 	private Sistema() {
 

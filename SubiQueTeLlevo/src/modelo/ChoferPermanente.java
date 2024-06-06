@@ -8,6 +8,10 @@ public class ChoferPermanente extends ChoferEmpleado{
 	protected LocalDate fechaIngreso; //clonable?
 	protected int cantidadHijos;
 	
+	public ChoferPermanente() { //para serializar
+		
+	}
+	
 	/**
 	 * <b>Pre: </b><br>
 	 * Dni != null y dni != "" <br>
@@ -81,7 +85,8 @@ public class ChoferPermanente extends ChoferEmpleado{
 		
 	}
 
-
+	public void setFechaIngreso(LocalDate fechaIngreso) { //para serializar
+		this.fechaIngreso = fechaIngreso;
+	}
 	
-
 }

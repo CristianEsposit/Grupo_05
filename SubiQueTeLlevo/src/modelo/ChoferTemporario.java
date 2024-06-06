@@ -3,6 +3,10 @@ package modelo;
 public class ChoferTemporario extends ChoferEmpleado{
 	private static final double plusCantidadViajes = 0.1;
 	public int cantidadViajes;
+	
+	public ChoferTemporario() { //para serializar
+		
+	}
 
 	/**
 	 *  <b>Pre: </b><br>
@@ -44,5 +48,8 @@ public class ChoferTemporario extends ChoferEmpleado{
 		this.setSueldoBasico(sueldoBasico);
 	}
 
+	public static double getPluscantidadviajes() { //para serializar
+		return plusCantidadViajes;
+	}
 
 }

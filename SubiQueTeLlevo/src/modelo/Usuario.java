@@ -5,6 +5,10 @@ public class Usuario {
 	private String nombreUsuario;
 	private String password;
 	
+	public Usuario() { //para serializar
+		
+	}
+	
 	public Usuario(String nombreReal, String nombreUsuario, String password) {
 		super();
 		this.nombreReal = nombreReal;
@@ -33,8 +37,12 @@ public class Usuario {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	public void setPassword(String password) {
+	public void setPassword(String password) { //para serializar
 		this.password = password;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 	
 }

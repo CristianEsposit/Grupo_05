@@ -5,6 +5,10 @@ import java.util.ArrayList;
 public class Cliente extends Usuario implements Cloneable{
 	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
 
+	public Cliente() { //para serializar
+		
+	}
+	
 	public Cliente(String nombreReal, String nombreUsuario, String password) {
 		super(nombreReal, nombreUsuario, password);
 	}
@@ -22,6 +26,10 @@ public class Cliente extends Usuario implements Cloneable{
 		return viajes;
 	}
 
+	public void setViajes(ArrayList<IViaje> viajes) {
+		this.viajes = viajes;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + " Listado de viajes  " + viajes;
@@ -29,7 +37,7 @@ public class Cliente extends Usuario implements Cloneable{
 	
 	public Object clone() throws CloneNotSupportedException{
 		Cliente nCli = (Cliente)super.clone();
-		nCli.viajes = ( ArrayList<IViaje> )this.viajes.clone();
+		nCli.viajes = (ArrayList<IViaje>)this.viajes.clone();
 		return nCli;
 	}
 

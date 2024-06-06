@@ -5,6 +5,10 @@ public abstract class Vehiculo{
     protected boolean petFriendly;
     protected boolean baul;
     protected String nroPatente;
+    
+    public Vehiculo() { //para serializar
+    	
+    }
 
     /**
      * Retorna un Integer con el valor de prioridad del vehiculo si este cumple con el pedido <br>
@@ -57,4 +61,18 @@ public abstract class Vehiculo{
 	}
 	
 	public abstract String toString();
+
+	//PARA SERIALIZAR
+	public void setCantPasajeros(int cantPasajeros) {
+		this.cantPasajeros = cantPasajeros;
+	}
+
+	public void setPetFriendly(boolean petFriendly) {
+		this.petFriendly = petFriendly;
+	}
+
+	public void setBaul(boolean baul) {
+		this.baul = baul;
+	}
+	
 }

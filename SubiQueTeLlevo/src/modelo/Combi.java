@@ -1,6 +1,10 @@
 package modelo;
 
 public class Combi extends Vehiculo {
+	
+	public Combi() { //para serializar
+		
+	}
 
     public Combi(String nroPatente){
         this.cantPasajeros = 10;

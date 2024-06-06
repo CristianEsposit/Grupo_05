@@ -11,6 +11,9 @@ public abstract class Chofer {
 	
 	//private int calificacion;
 
+	public Chofer() { //para serializar
+		
+	}
 	public Chofer(String dni, String nombre) {
 		this.dni = dni;
 		this.nombre = nombre;
@@ -41,6 +44,9 @@ public abstract class Chofer {
 		return viajes;
 	}
 
+	public void setViajes(ArrayList<IViaje> viajes) {
+		this.viajes = viajes;
+	}
 	public void agregarViaje(IViaje viaje) {
 		this.viajes.add(viaje);
 	}
