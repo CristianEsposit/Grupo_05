@@ -310,17 +310,18 @@ public class Sistema {
 	 * @throws FaltaVehiculoException : Se dispara cuando no existen vehiculos que puedan cumplir con el pedido.
 	 * @throws PedidoIncoherenteException : Se dispara cuando el pedido no cumple con la tabla de vehiculos.
 	 */
-	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
+	public IViaje realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
 			boolean equipajeBaul, Cliente cliente, int distancia) throws FaltaChoferException, FaltaVehiculoException, PedidoIncoherenteException {
 		Pedido pedido = null;
 		//try {
 			pedido = new Pedido(fechaYHora, zona, mascota, cantPasajeros, equipajeBaul, cliente);
-			IViaje viaje = solicitarViaje(pedido, distancia);
-			this.asignarVehiculo(this.flota, viaje);
+			//IViaje viaje = solicitarViaje(pedido, distancia);
+			return solicitarViaje(pedido, distancia);
+			/*this.asignarVehiculo(this.flota, viaje);
 			this.asignarChofer(this.choferes, viaje);
 			flota.remove(flota.indexOf(viaje.getVehiculo()));
 			this.viajes.add(viaje);
-			cliente.agregaViaje(viaje);
+			cliente.agregaViaje(viaje);*/
 		/*} catch(FaltaChoferException e){
 			System.out.println(e.getMessage());
 		} catch (FaltaVehiculoException e) {
@@ -346,7 +347,7 @@ public class Sistema {
 	 *                              disponible
 	 */
 
-	private void asignarChofer(ArrayList<Chofer> choferes, IViaje viaje) throws FaltaChoferException {
+	public void asignarChofer(ArrayList<Chofer> choferes, IViaje viaje) throws FaltaChoferException {
 		int n = choferes.size();
 		Chofer chofer;
 		assert choferes != null : "El ArrayList debe ser distinto de null";
@@ -378,7 +379,7 @@ public class Sistema {
 	 *                                pedido
 	 */
 
-	private void asignarVehiculo(ArrayList<Vehiculo> flota, IViaje viaje) throws FaltaVehiculoException {
+	public void asignarVehiculo(ArrayList<Vehiculo> flota, IViaje viaje) throws FaltaVehiculoException {
 		assert flota != null : "El HashMap de Vehiculo debe ser distinto de null";
 		Integer prioridadMax = null;
 		Vehiculo prioritario = null;
