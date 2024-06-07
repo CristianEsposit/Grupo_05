@@ -6,6 +6,10 @@ public class Simulacion {
 	private Sistema sistema;
 	
 	
+	public Simulacion() {
+		
+	}
+	
 	public Simulacion(Sistema sistema) {
 		this.sistema = sistema;	
 	}

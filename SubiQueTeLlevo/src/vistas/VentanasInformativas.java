@@ -10,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
-public class VentanaGeneral extends JFrame {
+public class VentanasInformativas extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -25,7 +25,7 @@ public class VentanaGeneral extends JFrame {
 	private JLabel lblCliente;
 	private JLabel lblChofer;
 
-	public VentanaGeneral() {
+	public VentanasInformativas() {
 		setTitle("Ventana Simulacion");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

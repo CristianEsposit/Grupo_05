@@ -23,7 +23,7 @@ import simulacion.Simulacion;
  */
 public class Sistema {
 	private static Sistema instance = null;
-	private ArrayList<Vehiculo> flota = new ArrayList<Vehiculo>();
+	private ArrayList<Vehiculo> flota = new ArrayList<Vehiculo>(); //guarda la totalidad de vehiculos con los que cuenta la empresa
 	protected ArrayList<Chofer> choferes = new ArrayList<Chofer>();
 	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
@@ -310,13 +310,14 @@ public class Sistema {
 	 * @throws FaltaVehiculoException : Se dispara cuando no existen vehiculos que puedan cumplir con el pedido.
 	 * @throws PedidoIncoherenteException : Se dispara cuando el pedido no cumple con la tabla de vehiculos.
 	 */
-	public IViaje realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
-			boolean equipajeBaul, Cliente cliente, int distancia) throws FaltaChoferException, FaltaVehiculoException, PedidoIncoherenteException {
+	public Pedido realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
+			boolean equipajeBaul, Cliente cliente, int distancia) throws PedidoIncoherenteException {
 		Pedido pedido = null;
 		//try {
-			pedido = new Pedido(fechaYHora, zona, mascota, cantPasajeros, equipajeBaul, cliente);
+			pedido = new Pedido(fechaYHora, zona, mascota, cantPasajeros, equipajeBaul, cliente); //aca valida el pedido
+			return pedido;
 			//IViaje viaje = solicitarViaje(pedido, distancia);
-			return solicitarViaje(pedido, distancia);
+			//return solicitarViaje(pedido, distancia); no va aca
 			/*this.asignarVehiculo(this.flota, viaje);
 			this.asignarChofer(this.choferes, viaje);
 			flota.remove(flota.indexOf(viaje.getVehiculo()));
@@ -380,15 +381,17 @@ public class Sistema {
 	 */
 
 	public void asignarVehiculo(ArrayList<Vehiculo> flota, IViaje viaje) throws FaltaVehiculoException {
-		assert flota != null : "El HashMap de Vehiculo debe ser distinto de null";
+		//assert flota != null : "El HashMap de Vehiculo debe ser distinto de null"; creo que este assert no puede estar o tiene que referir a this.flota
 		Integer prioridadMax = null;
 		Vehiculo prioritario = null;
 		Integer prioridad = null;
-		for(int i = 0; i<flota.size(); i++) {
+		int posPrioritario = 0; //para tener en cuenta que hay que sacar el vehiculo de la lista
+		for(int i = 0; i < flota.size(); i++) {
 			prioridad = flota.get(i).getPrioridad(viaje.getPedido());
             if(prioridadMax==null || (prioridad != null && prioridad > prioridadMax)) {
                 prioridadMax = prioridad;
                 prioritario = flota.get(i);
+                posPrioritario = i;
             }
         }
 
@@ -397,6 +400,7 @@ public class Sistema {
 		else {
 			viaje.setVehiculo(prioritario);
 			viaje.setEstado("Con vehiculo");
+			flota.remove(posPrioritario);  //saco el vehiculo de la lista
 			assert viaje.getVehiculo() != null
 					: "El atributo vehiculo debe guardar la referencia del vehiculo asignado al viaje";
 		}
@@ -457,7 +461,7 @@ public class Sistema {
 	 * @param distancia : Parametro que indica la distancia del viaje.
 	 * @return Devuelve el viaje confeccionado.
 	 */
-	private IViaje solicitarViaje(Pedido pedido, int distancia) {
+	public IViaje solicitarViaje(Pedido pedido, int distancia) {
 		return ViajeFactory.agregarCapas(pedido, distancia);
 	}
 	/**
@@ -589,4 +593,9 @@ public class Sistema {
 	public ArrayList<IViaje> getLViajes(){
 		return this.viajes;
 	}
+
+	public Simulacion getSimulacion() {
+		return simulacion;
+	}
+	
 }
