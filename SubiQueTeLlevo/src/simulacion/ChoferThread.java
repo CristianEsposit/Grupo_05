@@ -1,25 +1,26 @@
 package simulacion;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class ChoferThread implements Runnable, Observer {
-	private Observable recursoCompartido;
+public class ChoferThread implements Runnable {
+	private RecursoCompartido rc;
+	private int viajesPorRealizar;
 	
-	public ChoferThread(Observable o) {
-		this.recursoCompartido = o;
-		this.recursoCompartido.addObserver(this);
+	public ChoferThread(RecursoCompartido rc, int viajes) {
+		this.rc = rc;
+		this.viajesPorRealizar = viajes;
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		
+		for(int i = 0; i < this.viajesPorRealizar; i++) {
+			this.rc.agarraViaje();
+			try {
+				Thread.sleep((long)(Math.random() * 1000) + 1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			this.rc.finalizaViaje();
+		}
+		RecursoCompartido.setContChoferesActivos(RecursoCompartido.getContChoferesActivos() - 1);
 	}
 
 }

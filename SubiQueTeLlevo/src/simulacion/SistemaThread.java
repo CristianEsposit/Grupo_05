@@ -1,32 +1,22 @@
 package simulacion;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.ArrayList;
 
-import modelo.IViaje;
+import modelo.Vehiculo;
 
-public class SistemaThread implements Runnable, Observer  {
-	private Observable observado;
+public class SistemaThread implements Runnable {
+	private RecursoCompartido rc;
+	private ArrayList<Vehiculo> vehiculosDisponibles = new ArrayList<Vehiculo>();
 	
-	public SistemaThread(Observable o) {
-		this.observado = o;
-		this.observado.addObserver(this);
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		if (o == this.observado) {
-			RecursoCompartido RC = (RecursoCompartido) o;
-			IViaje viaje = (IViaje) arg;
-			RC.asignarVehiculo(null, viaje);
-		}
-		else
-			throw new IllegalArgumentException();
+	public SistemaThread(RecursoCompartido rc) {
+		this.rc = rc;
 	}
 
 	@Override
 	public void run() {
-		
+		while (RecursoCompartido.getContChoferesActivos() > 0 /*&& no haya un cliente humano interactuando*/) {
+			this.rc.asignarVehiculo(this.vehiculosDisponibles);
+		}
 	}
 
 }
