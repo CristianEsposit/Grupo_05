@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import excepciones.UsuarioInexistenteException;
+import negocio.Controlador;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -21,15 +22,10 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JLayeredPane;
-<<<<<<< HEAD
-
-public class VentanaLogin extends JFrame implements ActionListener, KeyListener, IVista{
-=======
 /**
  * Ventana que permite el ingreso de un usuario e iniciar la simulacion<br>
  */
 public class VentanaLogin extends JFrame implements ActionListener, KeyListener {
->>>>>>> refs/remotes/main/main
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -44,6 +40,8 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 	private JPanel panelB;
 	private JButton btnRegistrar;
 	private JPasswordField in_passwordField;
+	
+	private Controlador controlador = new Controlador(this);
 	private JLayeredPane layeredPane;
 	
 	/**
@@ -139,7 +137,7 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 					&& !this.in_passwordField.getText().isEmpty());
 	}
 
-	/*
+	
 	@SuppressWarnings("unlikely-arg-type")
 	/**
 	 * Valida si existe el usuario y si es coincidente con su contraseña<br>
@@ -173,9 +171,6 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 		       }
 		}
 		return isValid;
-<<<<<<< HEAD
-	}*/
-=======
 	}
 
 	@Override
@@ -198,7 +193,6 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 	/**
 	 * Ante cualquier cambio en los JTextField verifica las entradas <br>
 	 */
->>>>>>> refs/remotes/main/main
 	public void keyReleased(KeyEvent e)
 	{
 		verificaEnables();
@@ -214,101 +208,6 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void cerrarse() {
-		this.setVisible(false);
-		
-	}
-
-	@Override
-	public void setControlador(controlador.Controlador c) {
-		this.btnIngreso.addActionListener(c);
-		this.btnRegistrar.addActionListener(c);
-		this.btnSimular.addActionListener(c);
-	}
-
-	@Override
-	public String getNombreReal() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getNombreUsuario() {
-		return this.in_UserField.getText();
-	}
-
-	@Override
-	public String getPasswordUsuario() {
-		char[] aux=this.in_passwordField.getPassword();
-		String respuesta="";
-		for(int i=0;i<aux.length;i++) {
-			respuesta=respuesta+aux[i];
-		}
-		return respuesta;
-	}
-	
-	@Override
-	public void crearMensaje(String arg) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getZona() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getMascota() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getEquipaje() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getPasajeros() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getDistancia() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IVista pasarRegistro() {
-		// TODO Auto-generated method stub
-		this.setVisible(false);
-		return null; // falta ventana registro
-	}
-
-	@Override
-	public IVista pasarRealizarPedido() {
-		this.setVisible(false);
-		return new VentanaUsuario();
-	}
-
-	@Override
-	public IVista pasarViaje() {
-		this.setVisible(false);
-		return new VentanaViaje();
 	}
 	
 }
