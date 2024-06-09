@@ -7,10 +7,12 @@ import negocio.Sistema;
 public class ChoferThread implements Runnable {
 	private RecursoCompartido rc;
 	private int viajesPorRealizar;
+	private Chofer chofer;
 	
 	public ChoferThread(RecursoCompartido rc, int viajes, Chofer chofer) throws ChoferExistenteException {
 		this.rc = rc;
 		this.viajesPorRealizar = viajes;
+		this.chofer = chofer;
 		this.rc.addChofer(chofer);
 		try {			
 			Sistema.getInstance().agregar(chofer);
@@ -28,7 +30,7 @@ public class ChoferThread implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.rc.finalizaViaje();
+			this.rc.finalizaViaje(chofer);
 		}
 		RecursoCompartido.setContChoferesActivos(RecursoCompartido.getContChoferesActivos() - 1);
 	}

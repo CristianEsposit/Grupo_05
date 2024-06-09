@@ -110,7 +110,7 @@ public class RecursoCompartido extends Observable {
 		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
 			i++;
 		}
-		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().toLowerCase() != "iniciado") {
+		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().equalsIgnoreCase("iniciado")) {
 			try {
 				wait();
 			}catch(InterruptedException e) {
@@ -127,7 +127,7 @@ public class RecursoCompartido extends Observable {
 			i++;
 		}
 		
-		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().toLowerCase() != "pagado") {
+		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().equalsIgnoreCase("pagado")) {
 			try {					
 				wait();
 			}catch(InterruptedException e) {
