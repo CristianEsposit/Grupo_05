@@ -1,12 +1,22 @@
 package simulacion;
 
+import excepciones.ChoferExistenteException;
+import modelo.Chofer;
+import negocio.Sistema;
+
 public class ChoferThread implements Runnable {
 	private RecursoCompartido rc;
 	private int viajesPorRealizar;
 	
-	public ChoferThread(RecursoCompartido rc, int viajes) {
+	public ChoferThread(RecursoCompartido rc, int viajes, Chofer chofer) throws ChoferExistenteException {
 		this.rc = rc;
 		this.viajesPorRealizar = viajes;
+		this.rc.addChofer(chofer);
+		try {			
+			Sistema.getInstance().agregar(chofer);
+		}catch(ChoferExistenteException e) {
+			throw new ChoferExistenteException("Chofer no valido");
+		}
 	}
 
 	@Override

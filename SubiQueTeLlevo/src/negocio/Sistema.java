@@ -158,7 +158,7 @@ public class Sistema {
 	 * Agrega un chofer a la lista.<br>
 	 * <b>Pre: </b> El chofer no puede ser null.<br>
 	 * @param chofer : Parametro que sera agregado a la lista de choferes.
-	 * @throws PedidoIncoherenteException Excepcion que se dispara cuando el chofer a ingresar a la lista ya estaba dentro de ella
+	 * @throws ChoferExistenteException Excepcion que se dispara cuando el chofer a ingresar a la lista ya estaba dentro de ella
 	 */
 	public void agregar(Chofer chofer) throws ChoferExistenteException{
 		assert chofer != null : "chofer no valido.";
