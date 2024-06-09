@@ -11,7 +11,9 @@ import modelo.Moto;
 import modelo.Auto;
 import modelo.Combi;
 import negocio.Sistema;
-
+/**
+ * Clase responsable de ejecutar la simulacion
+ */
 public class Simulacion {
 	private Sistema sistema;
 	private RecursoCompartido recursoCompartido;
@@ -28,7 +30,19 @@ public class Simulacion {
 	public Simulacion() {
 		
 	}
-	
+	/**
+	 * Constructor:
+	 * @param sistema 			   : Instancia del Sistema actual 
+	 * @param cantClientes 		   : Cantidad de clientes que se simularán 
+	 * @param cantMaxViajesCliente : Máxima cantidad de viajes que un cliente podría realizar
+	 * @param cantChoferContratado : Cantidad de Choferes contratados que se simularán
+	 * @param cantChoferPermanente : Cantidad de Choferes permanentes que se simularán
+	 * @param cantChoferTemporario : Cantidad de Choferes temporarios que se simularán
+	 * @param cantMaxViajesChofer  : Máxima cantidad de Viajes que un chofer podría realizar
+	 * @param cantMotos			   : Cantidad de autos que se simularán
+	 * @param cantAutos			   : Cantidad de autos que se simularán
+	 * @param cantCombis		   : Cantidad de autos que se simularán 
+	 */
 	public Simulacion(Sistema sistema, int cantClientes, int cantMaxViajesCliente,int cantChoferContratado,
 			int cantChoferPermanente,int cantChoferTemporario, int cantMaxViajesChofer, int cantMotos, int cantAutos, int cantCombis) {
 		Random random = new Random();
@@ -43,8 +57,10 @@ public class Simulacion {
 		this.cantCombis = cantCombis;
 		this.sistema = sistema;
 	}
-	
-	public void iniciaSimulacion() { //crea los hilos, el RC y todo lo necesario para la simulacion
+	/**
+	 * Crea los hilos, el Recurso Compartido y todo lo necesario para la simulación
+	 */
+	public void iniciaSimulacion() { 
 		this.recursoCompartido = new RecursoCompartido(this.cantViajesCliente,this.cantViajesChofer);
 		for(int i = 1; i <= this.cantMotos; i++) {
 			this.sistema.agregar(new Moto("MMM"+i));

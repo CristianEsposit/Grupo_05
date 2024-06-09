@@ -7,7 +7,9 @@ import modelo.Cliente;
 import modelo.IViaje;
 import modelo.Vehiculo;
 import simulacion.Simulacion;
-
+/**
+ * Data Transfer Object
+ */
 public class SistemaDTO {
 	private ArrayList<Vehiculo> flota = new ArrayList<Vehiculo>();
 	protected ArrayList<Chofer> choferes = new ArrayList<Chofer>();
