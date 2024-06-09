@@ -60,4 +60,8 @@ public class ClienteThread implements Runnable {
 		return this.ultimoBaul;
 	}
 
+	public Cliente getCliente() {
+		return cliente;
+	}
+
 }
