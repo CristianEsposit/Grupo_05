@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 
-public class PersistenciaXML {
+public class PersistenciaXML implements Persistencia{
 	private FileOutputStream fileOutput;
 	private XMLEncoder encoder;
 	private FileInputStream fileInput;

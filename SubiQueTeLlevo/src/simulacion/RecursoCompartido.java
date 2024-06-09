@@ -14,7 +14,7 @@ import modelo.Pedido;
 import modelo.Vehiculo;
 import negocio.Sistema;
 
-public class RecursoCompartido {
+public class RecursoCompartido extends Observable{
 	private static int contClientesActivos;
 	private static int contChoferesActivos;
 	private ArrayList<IViaje> viajesActivos = new ArrayList<IViaje>();
