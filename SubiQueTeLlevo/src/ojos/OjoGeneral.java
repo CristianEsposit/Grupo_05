@@ -5,9 +5,7 @@ import java.util.Observer;
 
 import simulacion.RecursoCompartido;
 import vistas.VentanasInformativas;
-/**
- * responsable de las actualizaciones en la vista General
- */
+
 public class OjoGeneral implements Observer {
 	private Observable observado; //seria el recurso compartido
 	private VentanasInformativas vista;

@@ -598,25 +598,4 @@ public class Sistema {
 		return simulacion;
 	}
 	
-	
-	public void setFlota(ArrayList<Vehiculo> flota) {
-		this.flota = flota;
-	}
-
-	public void setChoferes(ArrayList<Chofer> choferes) {
-		this.choferes = choferes;
-	}
-
-	public void setClientes(ArrayList<Cliente> clientes) {
-		this.clientes = clientes;
-	}
-
-	public void setViajes(ArrayList<IViaje> viajes) {
-		this.viajes = viajes;
-	}
-
-	public void setSimulacion(Simulacion simulacion) {
-		this.simulacion = simulacion;
-	}
-		
 }

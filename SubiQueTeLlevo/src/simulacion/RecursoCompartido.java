@@ -13,9 +13,7 @@ import modelo.IViaje;
 import modelo.Pedido;
 import modelo.Vehiculo;
 import negocio.Sistema;
-/**
- * Monitor 
- */
+
 public class RecursoCompartido extends Observable {
 	private static int contClientesActivos;
 	private static int contChoferesActivos;
@@ -27,15 +25,7 @@ public class RecursoCompartido extends Observable {
 		contChoferesActivos = choferes;
 		contClientesActivos = clientes;
 	}
-	/**
-	 * Procesa e inicializa un pedido solicitado por un cliente.<br>
-	 * Constructor de pedido
-	 * @param fechaYHora Fecha en la que se realizo el pedido
-	 * @param zona Zona por la que pasara el viaje
-	 * @param mascota Si lleva mascota
-	 * @param cantidadPasajeros Cantidad de pasajeros
-	 * @param equipajeBaul Si usa el baul
-	*/
+	
 	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
 			boolean equipajeBaul, Cliente cliente, int distancia) {
 		Pedido pedidoAct = null;
@@ -47,25 +37,16 @@ public class RecursoCompartido extends Observable {
 				notifyObservers(cartel);
 				solicitarViaje(pedidoAct, distancia);
 			} catch (PedidoIncoherenteException e) {
-				//IMPRIMIR POR VENTANA
 				e.printStackTrace();
 			}
 		}
 	}
-	/**
-	 * activa y solicita un viaje.
-	 * @param pedido a partir del cual se armará el viaje
-	 * @param distancia a recorrer durante el viaje
-	 */
+	
 	private synchronized void solicitarViaje(Pedido pedido, int distancia) {
 		IViaje viajeAct = this.sistema.solicitarViaje(pedido, distancia); //devuelve un viaje en estado solicitado
 		this.viajesActivos.add(viajeAct); //aca se genero el viaje solicitado a partir del pedido valido
 	}
 	
-	/**
-	 * 
-	 * @return El indice del viaje dentro del arreglo de viajes activos con Vehiculo asignado
-	 */
 	private int posicionViajeConVehiculo() {
 		int i = 0;
 		while (i < this.viajesActivos.size() && !this.viajesActivos.get(i).getEstado().equalsIgnoreCase("con vehiculo")) {
@@ -76,10 +57,7 @@ public class RecursoCompartido extends Observable {
 		else
 			return -1;
 	}
-	/**
-	 * Asigna un Chofer a un Viaje. <br>
-	 * Llamado por ChoferThreads. 
-	 */
+	
 	public synchronized void agarraViaje() {
 		IViaje viajeAct = null;
 		int posicionViaje;
@@ -101,10 +79,6 @@ public class RecursoCompartido extends Observable {
 		notifyAll();
 	}
 	
-	/**
-	 * 
-	 * @return El indice del viaje dentro del arreglo de viajes activos en estado Solicitado
-	 */
 	private int posicionViajeSolicitado() {
 		int i = 0;
 		while (i < this.viajesActivos.size() && !this.viajesActivos.get(i).getEstado().equalsIgnoreCase("solicitado")) {
@@ -115,7 +89,6 @@ public class RecursoCompartido extends Observable {
 		else
 			return -1;
 	}
-	
 	
 	public synchronized void asignarVehiculo(ArrayList<Vehiculo> vehiculosDisponibles) {
 		IViaje viajeAct = null;
@@ -131,10 +104,7 @@ public class RecursoCompartido extends Observable {
 			}
 		}
 	}
-	/**
-	 * Establece un Viaje como pagado<br>
-	 * Llamado por ClienteThread
-	 */
+	
 	public synchronized void pagarViaje(Cliente c) {
 		int i = 0;
 		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
@@ -151,10 +121,6 @@ public class RecursoCompartido extends Observable {
 		this.sistema.pagar(this.viajesActivos.get(i));
 	}
 	
-	/**
-	 * Establece un Viaje como Finalizado 
-	 * Llamado por ChoferThread
-	 */
 	public synchronized void finalizaViaje(Chofer c) {
 		int i = 0;
 		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer() != c) {
@@ -171,10 +137,7 @@ public class RecursoCompartido extends Observable {
 		notifyAll();
 		this.sistema.finalizar(this.viajesActivos.get(i));
 	}
-	/**
-	 * Agrega un Chofer a la lista de Disponibles
-	 * @param chofer Chofer que ingresa (o reingresa) como disponible
-	 */
+	
 	public void addChofer(Chofer chofer) {
 		this.choferesDisponibles.add(chofer);
 	}
