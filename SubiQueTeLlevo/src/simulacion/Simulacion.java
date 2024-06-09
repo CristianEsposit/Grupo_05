@@ -86,7 +86,7 @@ public class Simulacion {
 		}
 		for(int i = 1; i <= this.cantChoferTemporario;i++) {
 			try {
-				new Thread(new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferTemporario("" + i,"bot_chofer" + i,100,100))).start();
+				new Thread(new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferTemporario("" + i,"bot_chofer_temporario" + i,100,100))).start();
 			}catch(ChoferExistenteException e) {}
 		}
 		new Thread(new SistemaThread(this.recursoCompartido)).start();
