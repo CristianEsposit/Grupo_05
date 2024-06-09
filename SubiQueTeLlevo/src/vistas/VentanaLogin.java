@@ -81,6 +81,7 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 		this.simulacionPanel.add(this.btnSimular, BorderLayout.CENTER);
 		btnSimular.setActionCommand("iniciarSimulacion");
 		this.btnSimular.addActionListener(this);
+		this.btnSimular.addActionListener(controlador);
 		
 		this.InfoPanel = new JPanel();
 		this.contentPane.add(this.InfoPanel, BorderLayout.CENTER);
@@ -172,10 +173,14 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 			}
 		}
 		else if(actCmd.equals("nuevo_usuario")) {
-			//ventana registro
+			try {
+				VentanaRegistro frame = new VentanaRegistro();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-	    
-	}
+	}	    
 	
 	public void keyReleased(KeyEvent e)
 	{
