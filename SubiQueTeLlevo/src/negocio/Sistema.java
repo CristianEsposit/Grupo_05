@@ -348,21 +348,13 @@ public class Sistema {
 	 *                              disponible
 	 */
 
-	public void asignarChofer(ArrayList<Chofer> choferes, IViaje viaje) throws FaltaChoferException {
-		int n = choferes.size();
-		Chofer chofer;
-		assert choferes != null : "El ArrayList debe ser distinto de null";
-		if (n > 0) {
-			chofer = choferes.get(0);
-			viaje.setChofer(chofer);
-			chofer.agregarViaje(viaje);
-			choferes.remove(0);
-			viaje.setEstado("Iniciado");
+	public void asignarChofer(Chofer chofer, IViaje viaje) throws FaltaChoferException {
+		//assert choferes != null : "El ArrayList debe ser distinto de null";
+		viaje.setChofer(chofer);
+		chofer.agregarViaje(viaje);
+		viaje.setEstado("Iniciado");
 			
-			assert choferes.get(0) != null : "Chofer debio obtener la referencia del chofer asignado";
-			assert viaje.getEstado().equalsIgnoreCase("Iniciado") : "El estado del viaje debe ser iniciado";
-		} else
-			throw new FaltaChoferException("No hay chofer disponible");
+		assert viaje.getEstado().equalsIgnoreCase("Iniciado") : "El estado del viaje debe ser iniciado";
 	}
 
 	/**
@@ -426,8 +418,8 @@ public class Sistema {
 	public void finalizar(IViaje viaje) {
 		assert viaje != null : "El viaje no es valido.";
 		viaje.setEstado("Finalizado");
-		this.choferes.add(viaje.getChofer());
-		this.flota.add(viaje.getVehiculo());
+		/*this.choferes.add(viaje.getChofer());
+		this.flota.add(viaje.getVehiculo());*/
 		calificarChofer(viaje.getChofer(),(int)(Math.random() * 10));
 	}
 	/**
