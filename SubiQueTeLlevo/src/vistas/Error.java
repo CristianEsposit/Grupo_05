@@ -10,7 +10,9 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Ventana para visualizar las Excepciones
+ */
 public class Error extends JDialog implements ActionListener {
 
     private static final long serialVersionUID = 1L;

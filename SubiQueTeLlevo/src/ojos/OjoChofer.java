@@ -5,7 +5,9 @@ import java.util.Observer;
 
 import simulacion.ChoferThread;
 import vistas.VentanasInformativas;
-
+/**
+ * responsable de las actualizaciones en la vista del Chofer
+ */
 public class OjoChofer implements Observer {
 	private Observable observado; //seria el recurso compartido
 	private VentanasInformativas vista;
