@@ -11,22 +11,13 @@ import negocio.Sistema;
 import simulacion.Simulacion;
 
 import javax.swing.JFrame;
-
-/**
- *
- */
 public class Controlador implements ActionListener{
-	private JFrame vista;
+	private JFrame vista; // IVista Futura
 
 	public Controlador(JFrame vista) {
 		this.vista = vista;
 	}
-	/**
-	 * 
-	 * @param user, es el usuario que se ingresó en el Login
-	 * @return la contraseña correspondiente 
-	 * @throws UsuarioInexistenteException si el usuario no existe en el sistema
-	 */
+	
 	public String getContraseña(String user) throws UsuarioInexistenteException{
 		Usuario usuario = Sistema.getInstance().consultarCliente(user);
 		if (usuario == null)
@@ -34,11 +25,7 @@ public class Controlador implements ActionListener{
 		else 
 			return usuario.getPassword();
 	}
-	/**
-	 * 
-	 * @param c Nuevo Cliente a registrar
-	 * @throws ClienteExistenteException si el nombre de usuario ya existe
-	 */
+	
 	public void registrarCliente(Cliente c) throws ClienteExistenteException{
 		Sistema.getInstance().agregar(c);
 	}

@@ -68,24 +68,15 @@ public class VentanasInformativas extends JFrame {
 		
 		this.setVisible(true);
 	}
-	/**
-	 * Actualiza el Area General
-	 * @param comentario : Acción realizada
-	 */
+	
 	public void actualizaTextAreaGeneral(String comentario) {
 		this.textAreaGeneral.append(comentario + "\n");
 	}
-	/**
-	 * Actualiza el Area del Cliente
-	 * @param comentario : acción realizada
-	 */
+	
 	public void actualizaTextAreaCliente(String comentario) {
 		this.textAreaCliente.append(comentario + "\n");
 	}
-	/**
-	 * Actualiza el Area del Chofer
-	 * @param comentario: acción realizada
-	 */
+	
 	public void actualizaTextAreaChofer(String comentario) {
 		this.textAreaChofer.append(comentario + "\n");
 	}

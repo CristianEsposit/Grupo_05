@@ -22,9 +22,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JLayeredPane;
-/**
- * Ventana que permite el ingreso de un usuario e iniciar la simulacion<br>
- */
+
 public class VentanaLogin extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
@@ -129,9 +127,6 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 	}
 	
 	@SuppressWarnings("deprecation")
-	/**
-	 * Comprueba el ingreso correcto de los campos usuario y contraseña de la vista <br>
-	 */
 	public void verificaEnables() {
 			this.btnIngreso.setEnabled(this.in_UserField.getText() != null && !this.in_UserField.getText().isEmpty() && this.in_passwordField.getPassword()!=null
 					&& !this.in_passwordField.getText().isEmpty());
@@ -139,10 +134,6 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 
 	
 	@SuppressWarnings("unlikely-arg-type")
-	/**
-	 * Valida si existe el usuario y si es coincidente con su contraseña<br>
-	 * @return devuelve true si el usuario pudo ingresar, y false si hubo un error
-	 */
 	public boolean validarEntrada() {
 		boolean isValid = false;
 		try{
@@ -190,9 +181,7 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 			}
 		}
 	}	    
-	/**
-	 * Ante cualquier cambio en los JTextField verifica las entradas <br>
-	 */
+	
 	public void keyReleased(KeyEvent e)
 	{
 		verificaEnables();
