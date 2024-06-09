@@ -3,8 +3,11 @@ package ojos;
 import java.util.Observable;
 import java.util.Observer;
 
+import simulacion.RecursoCompartido;
 import vistas.VentanasInformativas;
-
+/**
+ * responsable de las actualizaciones en la vista General
+ */
 public class OjoGeneral implements Observer {
 	private Observable observado; //seria el recurso compartido
 	private VentanasInformativas vista;
@@ -18,8 +21,9 @@ public class OjoGeneral implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (this.observado == o) {
-			
-			this.vista.actualizaTextAreaGeneral(null);
+			//RecursoCompartido rc = (RecursoCompartido) o; creo que no es necesario
+			String cartel = (String) arg;
+			this.vista.actualizaTextAreaGeneral(cartel);
 		}
 		else
 			throw new IllegalArgumentException();

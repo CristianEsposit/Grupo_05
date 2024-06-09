@@ -7,8 +7,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
+<<<<<<< HEAD
 
 public class PersistenciaXML implements Persistencia{
+=======
+/**
+ * Clase encargada de serializar el Sistema
+ */
+public class PersistenciaXML {
+>>>>>>> refs/remotes/main/main
 	private FileOutputStream fileOutput;
 	private XMLEncoder encoder;
 	private FileInputStream fileInput;

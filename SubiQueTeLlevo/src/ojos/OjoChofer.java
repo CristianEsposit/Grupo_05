@@ -3,23 +3,37 @@ package ojos;
 import java.util.Observable;
 import java.util.Observer;
 
+import simulacion.ChoferThread;
 import vistas.VentanasInformativas;
-
+/**
+ * responsable de las actualizaciones en la vista del Chofer
+ */
 public class OjoChofer implements Observer {
 	private Observable observado; //seria el recurso compartido
 	private VentanasInformativas vista;
-	
-	public OjoChofer(Observable o, VentanasInformativas vista) {
+	private ChoferThread chofer;
+	/**
+	 * Constructor del Observer<br>
+	 * @param o: Es el primer objeto que el ojo observa
+	 * @param vista: Es la ventana donde actualiza la informacion del modelo
+	 * @param chofer
+	 */
+	public OjoChofer(Observable o, VentanasInformativas vista, ChoferThread chofer) {
 		this.observado = o;
 		this.observado.addObserver(this);
 		this.vista = vista;
+		this.chofer = chofer;
 	}
-
-	@Override
+	
+	/**
+	 * Actualiza en la ventana general la situacion del chofer <br>
+	 */
 	public void update(Observable o, Object arg) {
 		if (this.observado == o) {
-			
-			this.vista.actualizaTextAreaChofer(null);
+			//RecursoCompartido rc = (RecursoCompartido) o; creo que no es necesario
+			String cartel = (String) arg;
+			//if (cartel.contains(this.chofer.algun dato que identifique al chofer))
+				this.vista.actualizaTextAreaChofer(cartel);
 		}
 		else
 			throw new IllegalArgumentException();

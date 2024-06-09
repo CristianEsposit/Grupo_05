@@ -21,8 +21,15 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JLayeredPane;
+<<<<<<< HEAD
 
 public class VentanaLogin extends JFrame implements ActionListener, KeyListener, IVista{
+=======
+/**
+ * Ventana que permite el ingreso de un usuario e iniciar la simulacion<br>
+ */
+public class VentanaLogin extends JFrame implements ActionListener, KeyListener {
+>>>>>>> refs/remotes/main/main
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -78,6 +85,7 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener,
 		this.simulacionPanel.add(this.btnSimular, BorderLayout.CENTER);
 		btnSimular.setActionCommand("iniciarSimulacion");
 		this.btnSimular.addActionListener(this);
+		this.btnSimular.addActionListener(controlador);
 		
 		this.InfoPanel = new JPanel();
 		this.contentPane.add(this.InfoPanel, BorderLayout.CENTER);
@@ -123,6 +131,9 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener,
 	}
 	
 	@SuppressWarnings("deprecation")
+	/**
+	 * Comprueba el ingreso correcto de los campos usuario y contraseña de la vista <br>
+	 */
 	public void verificaEnables() {
 			this.btnIngreso.setEnabled(this.in_UserField.getText() != null && !this.in_UserField.getText().isEmpty() && this.in_passwordField.getPassword()!=null
 					&& !this.in_passwordField.getText().isEmpty());
@@ -130,6 +141,10 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener,
 
 	/*
 	@SuppressWarnings("unlikely-arg-type")
+	/**
+	 * Valida si existe el usuario y si es coincidente con su contraseña<br>
+	 * @return devuelve true si el usuario pudo ingresar, y false si hubo un error
+	 */
 	public boolean validarEntrada() {
 		boolean isValid = false;
 		try{
@@ -158,7 +173,32 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener,
 		       }
 		}
 		return isValid;
+<<<<<<< HEAD
 	}*/
+=======
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent ae) {
+		String actCmd = ae.getActionCommand();
+		if(actCmd.equals("usuario_ingresado")){
+			if (validarEntrada()) {
+				//desplegar Ventana Cliente;
+			}
+		}
+		else if(actCmd.equals("nuevo_usuario")) {
+			try {
+				VentanaRegistro frame = new VentanaRegistro();
+				frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}	    
+	/**
+	 * Ante cualquier cambio en los JTextField verifica las entradas <br>
+	 */
+>>>>>>> refs/remotes/main/main
 	public void keyReleased(KeyEvent e)
 	{
 		verificaEnables();
