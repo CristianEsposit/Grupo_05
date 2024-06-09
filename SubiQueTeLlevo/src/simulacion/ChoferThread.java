@@ -20,6 +20,9 @@ public class ChoferThread implements Runnable {
 	}
 
 	@Override
+	/**
+	 * un ChoferThread estara constantemente tratando de tomar un Viaje
+	 */
 	public void run() {
 		for(int i = 0; i < this.viajesPorRealizar; i++) {
 			this.rc.agarraViaje();

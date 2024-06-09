@@ -5,20 +5,29 @@ import java.util.Observer;
 
 import simulacion.ChoferThread;
 import vistas.VentanasInformativas;
-
+/**
+ * responsable de las actualizaciones en la vista del Chofer
+ */
 public class OjoChofer implements Observer {
 	private Observable observado; //seria el recurso compartido
 	private VentanasInformativas vista;
 	private ChoferThread chofer;
-	
+	/**
+	 * Constructor del Observer<br>
+	 * @param o: Es el primer objeto que el ojo observa
+	 * @param vista: Es la ventana donde actualiza la informacion del modelo
+	 * @param chofer
+	 */
 	public OjoChofer(Observable o, VentanasInformativas vista, ChoferThread chofer) {
 		this.observado = o;
 		this.observado.addObserver(this);
 		this.vista = vista;
 		this.chofer = chofer;
 	}
-
-	@Override
+	
+	/**
+	 * Actualiza en la ventana general la situacion del chofer <br>
+	 */
 	public void update(Observable o, Object arg) {
 		if (this.observado == o) {
 			//RecursoCompartido rc = (RecursoCompartido) o; creo que no es necesario

@@ -121,7 +121,9 @@ public class VentanaRegistro extends JFrame  implements ActionListener, KeyListe
 			}
 		}
 	}
-	
+	/**
+	 * Comprueba el ingreso correcto de los campos usuario y contraseña de la vista <br>
+	 */
 	public void validarEntradas() {
 		String in_nombre = this.in_nombreRealField.getText();
 		char[] in_contrasena = this.passwordField.getPassword();
