@@ -105,12 +105,37 @@ public class RecursoCompartido extends Observable {
 		}
 	}
 	
-	public void pagarViaje() {
-		
+	public synchronized void pagarViaje(Cliente c) {
+		int i = 0;
+		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
+			i++;
+		}
+		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().toLowerCase() != "iniciado") {
+			try {
+				wait();
+			}catch(InterruptedException e) {
+				
+			}
+		}
+		notifyAll();
+		this.sistema.pagar(this.viajesActivos.get(i));
 	}
 	
-	public void finalizaViaje() {
+	public synchronized void finalizaViaje(Chofer c) {
+		int i = 0;
+		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer() != c) {
+			i++;
+		}
 		
+		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().toLowerCase() != "pagado") {
+			try {					
+				wait();
+			}catch(InterruptedException e) {
+				
+			}
+		}
+		notifyAll();
+		this.sistema.finalizar(this.viajesActivos.get(i));
 	}
 	
 	public void addChofer(Chofer chofer) {

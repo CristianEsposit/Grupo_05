@@ -28,7 +28,8 @@ public class ClienteThread implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.rc.pagarViaje();
+			this.rc.pagarViaje(this.cliente);
+			
 		}
 		RecursoCompartido.setContClientesActivos(RecursoCompartido.getContClientesActivos() - 1);
 	}
