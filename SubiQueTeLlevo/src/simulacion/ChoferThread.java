@@ -22,6 +22,10 @@ public class ChoferThread implements Runnable {
 	}
 
 	@Override
+	/**
+	 * Busca un viaje activo para iniciar.
+	 */
+
 	public void run() {
 		for(int i = 0; i < this.viajesPorRealizar; i++) {
 			this.rc.agarraViaje();
