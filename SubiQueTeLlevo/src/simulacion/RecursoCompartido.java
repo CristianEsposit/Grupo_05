@@ -14,12 +14,17 @@ import modelo.Pedido;
 import modelo.Vehiculo;
 import negocio.Sistema;
 
-public class RecursoCompartido extends Observable {
+public class RecursoCompartido {
 	private static int contClientesActivos;
 	private static int contChoferesActivos;
 	private ArrayList<IViaje> viajesActivos = new ArrayList<IViaje>();
-	private ArrayList<Chofer> choferesDisponibles = new ArrayList<Chofer>(); //es necesario porque el Array del sistema guarda el hisotirco de choferes
+	private ArrayList<Chofer> choferesDisponibles = new ArrayList<Chofer>(); //es necesario porque el Array del sistema guarda el historico de choferes
 	private Sistema sistema;
+	
+	public RecursoCompartido(int choferes, int clientes) {
+		contChoferesActivos = choferes;
+		contClientesActivos = clientes;
+	}
 	
 	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
 			boolean equipajeBaul, Cliente cliente, int distancia) {
@@ -32,8 +37,6 @@ public class RecursoCompartido extends Observable {
 				e.printStackTrace();
 			}
 		}
-		setChanged();
-		notifyObservers(pedidoAct);
 	}
 	
 	private synchronized void solicitarViaje(Pedido pedido, int distancia) {
@@ -70,8 +73,6 @@ public class RecursoCompartido extends Observable {
 				e.printStackTrace();
 			}
 		}
-		setChanged();
-		notifyObservers();
 		notifyAll();
 	}
 	
@@ -108,6 +109,11 @@ public class RecursoCompartido extends Observable {
 	public void finalizaViaje() {
 		
 	}
+	
+	public void addChofer(Chofer chofer) {
+		this.choferesDisponibles.add(chofer);
+	}
+	
 
 	public static int getContClientesActivos() {
 		return contClientesActivos;
