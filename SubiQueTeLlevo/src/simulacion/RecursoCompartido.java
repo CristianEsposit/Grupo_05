@@ -19,6 +19,7 @@ import negocio.Sistema;
 public class RecursoCompartido extends Observable {
 	private static int contClientesActivos;
 	private static int contChoferesActivos;
+	private static int contClientesHumanosActivos;
 	private ArrayList<IViaje> viajesActivos = new ArrayList<IViaje>();
 	private ArrayList<Chofer> choferesDisponibles = new ArrayList<Chofer>(); //es necesario porque el Array del sistema guarda el historico de choferes
 	private Sistema sistema;
@@ -26,6 +27,7 @@ public class RecursoCompartido extends Observable {
 	public RecursoCompartido(int choferes, int clientes) {
 		contChoferesActivos = choferes;
 		contClientesActivos = clientes;
+		contClientesHumanosActivos = 0;
 	}
 	/**
 	 * Procesa e inicializa un pedido solicitado por un cliente.<br>
@@ -40,16 +42,24 @@ public class RecursoCompartido extends Observable {
 	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
 			boolean equipajeBaul, Cliente cliente, int distancia) {
 		Pedido pedidoAct = null;
+		String cartel;
 		if (contChoferesActivos > 0) {
 			try {
 				pedidoAct= this.sistema.realizarPedido(fechaYHora, zona, mascota, cantPasajeros, equipajeBaul, cliente, distancia);
-				String cartel = cliente.getNombreReal() + "realizo un pedido valido";
+				cartel = cliente.getNombreReal() + "realizo un pedido valido.";
 				setChanged();
 				notifyObservers(cartel);
 				solicitarViaje(pedidoAct, distancia);
 			} catch (PedidoIncoherenteException e) {
-				e.printStackTrace();
+				cartel = cliente.getNombreReal() + "realizo un pedido que no es valido.";
+				setChanged();
+				notifyObservers(cartel);
 			}
+		}
+		else {
+			cartel = "No se pueden realizar mas pedido porque no hay mas choferes disponibles.";
+			setChanged();
+			notifyObservers(cartel);
 		}
 	}
 	/**
@@ -59,8 +69,23 @@ public class RecursoCompartido extends Observable {
 	 */
 
 	private synchronized void solicitarViaje(Pedido pedido, int distancia) {
-		IViaje viajeAct = this.sistema.solicitarViaje(pedido, distancia); //devuelve un viaje en estado solicitado
-		this.viajesActivos.add(viajeAct); //aca se genero el viaje solicitado a partir del pedido valido
+		String cartel;
+		while (contChoferesActivos > 0 && !choferesDisponibles.isEmpty())
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		if (contChoferesActivos > 0) {
+			IViaje viajeAct = this.sistema.solicitarViaje(pedido, distancia); //devuelve un viaje
+			viajeAct.setEstado("Solicitado");
+			this.viajesActivos.add(viajeAct); //aca se genero el viaje solicitado a partir del pedido valido
+			cartel = viajeAct.getPedido().getCliente().getNombreReal() + "solicito un viaje y fue aceptado.";
+		}
+		else
+			cartel = pedido.getCliente().getNombreReal() + "solicito un viaje pero no se puede realizar porque no hay choferes trabajando.";
+		setChanged();
+		notifyObservers(cartel);
 	}
 	/**
 	 * 
@@ -81,24 +106,34 @@ public class RecursoCompartido extends Observable {
 	 * Asigna un Chofer a un Viaje. <br>
 	 * Llamado por ChoferThreads. 
 	 */
-	public synchronized void agarraViaje() {
+	public synchronized void agarraViaje(ChoferThread c) {
+		String cartel;
 		IViaje viajeAct = null;
 		int posicionViaje;
 		posicionViaje = this.posicionViajeConVehiculo();
-		while (contClientesActivos > 0 && posicionViaje < 0 /*&& falta considerar al cliente usuario*/) {
+		while ((contClientesActivos > 0 || contClientesHumanosActivos > 0) && posicionViaje < 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		if ((contClientesActivos > 0/*|| hay un usuario activo*/) && posicionViaje >= 0) {
+		if ((contClientesActivos > 0 || contClientesHumanosActivos > 0) && posicionViaje >= 0) {
 			try {
-				this.sistema.asignarChofer(this.choferesDisponibles, viajeAct);
+				viajeAct = this.viajesActivos.get(posicionViaje);
+				this.sistema.asignarChofer(c.getChofer(), viajeAct);
+				this.choferesDisponibles.remove(c.getChofer());
+				cartel = "El chofer " + viajeAct.getChofer().getNombre() + "tomo el viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal();
 			} catch (FaltaChoferException e) {
-				e.printStackTrace();
+				cartel = "En este momento no hay choferes disponibles para el viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal();
+				setChanged();
+				notifyObservers(cartel);
 			}
 		}
+		else
+			cartel = "Ya no existen viajes por tomar porque ya no hay mas clientes.";
+		setChanged();
+		notifyObservers(cartel);
 		notifyAll();
 	}
 	/**
@@ -118,17 +153,26 @@ public class RecursoCompartido extends Observable {
 	}
 	
 	public synchronized void asignarVehiculo(ArrayList<Vehiculo> vehiculosDisponibles) {
+		String cartel;
 		IViaje viajeAct = null;
 		int posicionViaje;
 		posicionViaje = this.posicionViajeSolicitado();
-		if (posicionViaje >= 0 && !this.sistema.listadoChoferes().isEmpty()) { //no se si esta bien que refiera a ese listado de vehiculos
+		if (posicionViaje >= 0) {
 			viajeAct = this.viajesActivos.get(posicionViaje);
-			try { //este try y catch no estoy seguro de si va aca
-				this.sistema.asignarVehiculo(vehiculosDisponibles, viajeAct);
-			} catch (FaltaVehiculoException e) {
-				e.printStackTrace();
-				//aca hay que notificar a los ojos asi comunican lo que paso por las ventanas
+			if (!vehiculosDisponibles.isEmpty()) {
+				try {
+					this.sistema.asignarVehiculo(vehiculosDisponibles, viajeAct);
+					cartel = "Al viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal() + "se le asigno el vehiculo " + viajeAct.getVehiculo();
+				} catch (FaltaVehiculoException e) {
+					cartel = "No hay vehiculos para satisfacer el viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal();
+					setChanged();
+					notifyObservers(cartel);
+				}
 			}
+			else
+				cartel = "No contamos con vehiculos en este momento para el viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal();
+			setChanged();
+			notifyObservers(cartel);
 		}
 	}
 	/**
@@ -136,6 +180,7 @@ public class RecursoCompartido extends Observable {
 	 * Llamado por ClienteThread
 	 */
 	public synchronized void pagarViaje(Cliente c) {
+		String cartel = null;
 		int i = 0;
 		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
 			i++;
@@ -149,6 +194,9 @@ public class RecursoCompartido extends Observable {
 		}
 		notifyAll();
 		this.sistema.pagar(this.viajesActivos.get(i));
+		cartel = "El cliente " + c.getNombreReal() + "paga el viaje al chofer " + this.viajesActivos.get(i).getChofer().getNombre();
+		setChanged();
+		notifyObservers(cartel);
 	}
 	/**
 	 * Establece un Viaje como Finalizado 
@@ -156,6 +204,7 @@ public class RecursoCompartido extends Observable {
 	 */
 
 	public synchronized void finalizaViaje(Chofer c) {
+		String cartel;
 		int i = 0;
 		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer() != c) {
 			i++;
@@ -170,6 +219,11 @@ public class RecursoCompartido extends Observable {
 		}
 		notifyAll();
 		this.sistema.finalizar(this.viajesActivos.get(i));
+		this.addChofer(c);
+		SistemaThread.agregaVehiculo(this.viajesActivos.get(i).getVehiculo());
+		cartel = "El chofer" + c.getNombre() + "finaliza el viaje del cliente " + this.viajesActivos.get(i).getPedido().getCliente().getNombreReal();
+		setChanged();
+		notifyObservers(cartel);
 	}
 	/**
 	 * Agrega un Chofer a la lista de Disponibles

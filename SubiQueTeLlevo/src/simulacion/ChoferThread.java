@@ -28,7 +28,7 @@ public class ChoferThread implements Runnable {
 
 	public void run() {
 		for(int i = 0; i < this.viajesPorRealizar; i++) {
-			this.rc.agarraViaje();
+			this.rc.agarraViaje(this);
 			try {
 				Thread.sleep((long)(Math.random() * 1000) + 1);
 			} catch (InterruptedException e) {
@@ -37,6 +37,14 @@ public class ChoferThread implements Runnable {
 			this.rc.finalizaViaje(chofer);
 		}
 		RecursoCompartido.setContChoferesActivos(RecursoCompartido.getContChoferesActivos() - 1);
+	}
+	
+	public Chofer getChofer() {
+		return chofer;
+	}
+
+	public int getViajesPorRealizar() {
+		return viajesPorRealizar;
 	}
 
 }

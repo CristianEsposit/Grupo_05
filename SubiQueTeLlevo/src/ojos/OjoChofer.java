@@ -25,7 +25,7 @@ public class OjoChofer implements Observer {
 		if (this.observado == o) {
 			//RecursoCompartido rc = (RecursoCompartido) o; creo que no es necesario
 			String cartel = (String) arg;
-			//if (cartel.contains(this.chofer.algun dato que identifique al chofer))
+			if (cartel.contains(this.chofer.getChofer().getNombre()))
 				this.vista.actualizaTextAreaChofer(cartel);
 		}
 		else

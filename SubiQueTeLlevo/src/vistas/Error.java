@@ -63,6 +63,8 @@ public class Error extends JDialog implements ActionListener {
                 buttonPane.add(cancelButton);
             }
         }
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.setVisible(true);
     }
 
     @Override
