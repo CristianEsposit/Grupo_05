@@ -2,6 +2,7 @@ package negocio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 import excepciones.ClienteExistenteException;
@@ -11,6 +12,9 @@ import modelo.Cliente;
 import modelo.Usuario;
 import negocio.Sistema;
 import ojos.OjoViaje;
+import persistencia.PersistenciaXML;
+import persistencia.SistemaDTO;
+import persistencia.Util;
 import simulacion.Simulacion;
 import vistas.VentanaPedido;
 import vistas.VentanaViaje;
@@ -77,10 +81,53 @@ public class Controlador implements ActionListener{
 			
 			sim = new Simulacion (Sistema.getInstance(), CantClientes, CantViajesCliente, cantChoferContratado, cantChoferPermanente, cantChoferTemporario, cantMaxViajesChofer, cantMotos, cantAutos, cantCombis);
 			sim.iniciaSimulacion();
+			this.GuardarDatos();
 		}
 	}
 	public void setVista(VentanaPedido ventanaPedido) {
 		vista=ventanaPedido;
 		
+	}
+
+		private void GuardarDatos() {
+		PersistenciaXML persistencia = new PersistenciaXML();
+		try {
+			persistencia.abrirOutput("Subi_que_te_llevo.xml");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			persistencia.abrirOutput("Subi_que_te_llevo.xml");
+			System.out.println("Crea el archivo de escritura.");
+			SistemaDTO sDTO = Util.SistemaDTOFromSistema(Sistema.getInstance());
+			persistencia.escribir(sDTO);
+			System.out.println("Archivo grabado exitosamente.");
+			persistencia.cerrarOutput();
+			System.out.println("Archivo cerrado.");
+		}
+		catch (IOException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+	}
+	
+	private void RecuperarDatos() {
+		PersistenciaXML persistencia = new PersistenciaXML();
+		Sistema sistema = null;
+		try {
+			persistencia.abrirInput("Subi_que_te_llevo.xml");
+			System.out.println("Archivo abierto.");
+			SistemaDTO sDTO = (SistemaDTO) persistencia.leer();
+			sistema = Util.SistemaFromSistemaDTO(sDTO);
+			System.out.println("Archivo recuperado.");
+			persistencia.cerrarInput();
+			System.out.println("Archivo cerrado.");
+		}
+		catch (IOException e){
+			System.out.println(e.getLocalizedMessage());
+		}
+		catch (ClassNotFoundException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
 	}
 }
