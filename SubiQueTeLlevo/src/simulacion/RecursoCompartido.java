@@ -24,9 +24,10 @@ public class RecursoCompartido extends Observable {
 	private ArrayList<Chofer> choferesDisponibles = new ArrayList<Chofer>(); //es necesario porque el Array del sistema guarda el historico de choferes
 	private Sistema sistema;
 	
-	public RecursoCompartido(int choferes, int clientes) {
+	public RecursoCompartido(Sistema sistema,int clientes, int choferes) {
 		contChoferesActivos = choferes;
 		contClientesActivos = clientes;
+		this.sistema=sistema;
 		contClientesHumanosActivos = 0;
 	}
 	/**
@@ -39,7 +40,7 @@ public class RecursoCompartido extends Observable {
 	 * @param equipajeBaul Si usa el baul
 	*/
 
-	public void realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
+	public synchronized boolean realizarPedido(LocalDateTime fechaYHora, String zona, boolean mascota, int cantPasajeros,
 			boolean equipajeBaul, Cliente cliente, int distancia) {
 		Pedido pedidoAct = null;
 		String cartel;
@@ -49,17 +50,21 @@ public class RecursoCompartido extends Observable {
 				cartel = cliente.getNombreReal() + "realizo un pedido valido.";
 				setChanged();
 				notifyObservers(cartel);
+				
 				solicitarViaje(pedidoAct, distancia);
+				return true;
 			} catch (PedidoIncoherenteException e) {
-				cartel = cliente.getNombreReal() + "realizo un pedido que no es valido.";
+				cartel = cliente.getNombreReal() + "realizo un pedido que no es valido." + e.getMessage();
 				setChanged();
 				notifyObservers(cartel);
+				return false;
 			}
 		}
 		else {
 			cartel = "No se pueden realizar mas pedido porque no hay mas choferes disponibles.";
 			setChanged();
 			notifyObservers(cartel);
+			return false;
 		}
 	}
 	/**
@@ -70,7 +75,9 @@ public class RecursoCompartido extends Observable {
 
 	private synchronized void solicitarViaje(Pedido pedido, int distancia) {
 		String cartel;
-		while (contChoferesActivos > 0 && !choferesDisponibles.isEmpty())
+		System.out.println(this.contChoferesActivos);
+		System.out.println(this.choferesDisponibles);
+		while (contChoferesActivos > 0 && choferesDisponibles.isEmpty())
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -112,8 +119,10 @@ public class RecursoCompartido extends Observable {
 		int posicionViaje;
 		posicionViaje = this.posicionViajeConVehiculo();
 		while ((contClientesActivos > 0 || contClientesHumanosActivos > 0) && posicionViaje < 0) {
+			System.out.println("pos " + posicionViaje);
 			try {
 				wait();
+				System.out.println("Dormido");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -156,12 +165,22 @@ public class RecursoCompartido extends Observable {
 		String cartel;
 		IViaje viajeAct = null;
 		int posicionViaje;
+		while(this.viajesActivos.isEmpty()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		posicionViaje = this.posicionViajeSolicitado();
+		System.out.println("posViaje" + posicionViaje);
 		if (posicionViaje >= 0) {
 			viajeAct = this.viajesActivos.get(posicionViaje);
 			if (!vehiculosDisponibles.isEmpty()) {
 				try {
 					this.sistema.asignarVehiculo(vehiculosDisponibles, viajeAct);
+					System.out.println(viajeAct.getEstado());
 					cartel = "Al viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal() + "se le asigno el vehiculo " + viajeAct.getVehiculo();
 				} catch (FaltaVehiculoException e) {
 					cartel = "No hay vehiculos para satisfacer el viaje del cliente " + viajeAct.getPedido().getCliente().getNombreReal();
@@ -182,17 +201,23 @@ public class RecursoCompartido extends Observable {
 	public synchronized void pagarViaje(Cliente c) {
 		String cartel = null;
 		int i = 0;
+		//System.out.println(this.viajesActivos);
 		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
 			i++;
 		}
-		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().equalsIgnoreCase("iniciado")) {
+		while(i == this.viajesActivos.size() || !this.viajesActivos.get(i).getEstado().equalsIgnoreCase("iniciado")) {
 			try {
 				wait();
+				i = 0;
+				//System.out.println(this.viajesActivos);
+				while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c)
+					i++;
 			}catch(InterruptedException e) {
 				
 			}
 		}
 		notifyAll();
+		
 		this.sistema.pagar(this.viajesActivos.get(i));
 		cartel = "El cliente " + c.getNombreReal() + "paga el viaje al chofer " + this.viajesActivos.get(i).getChofer().getNombre();
 		setChanged();
@@ -206,13 +231,17 @@ public class RecursoCompartido extends Observable {
 	public synchronized void finalizaViaje(Chofer c) {
 		String cartel;
 		int i = 0;
-		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer() != c) {
+		//System.out.println(this.viajesActivos);
+		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer()!= c) {
 			i++;
 		}
-		
-		while(i == this.viajesActivos.size() || this.viajesActivos.get(i).getEstado().equalsIgnoreCase("pagado")) {
-			try {					
+		while(i == this.viajesActivos.size() || !this.viajesActivos.get(i).getEstado().equalsIgnoreCase("pagado")) {
+			try {
 				wait();
+				i = 0;
+				//System.out.println(this.viajesActivos);
+				while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer()!= c)
+					i++;
 			}catch(InterruptedException e) {
 				
 			}

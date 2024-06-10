@@ -81,8 +81,7 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 		this.btnSimular = new JButton("Iniciar Simulacion");
 		
 		this.simulacionPanel.add(this.btnSimular, BorderLayout.CENTER);
-		btnSimular.setActionCommand("iniciarSimulacion");
-		this.btnSimular.addActionListener(this);
+		btnSimular.setActionCommand("iniciar_simulacion");
 		this.btnSimular.addActionListener(controlador);
 		
 		this.InfoPanel = new JPanel();
@@ -173,7 +172,7 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 		String actCmd = ae.getActionCommand();
 		if(actCmd.equals("usuario_ingresado")){
 			if (validarEntrada()) {
-				//desplegar Ventana Cliente;
+				this.controlador.setVista(new VentanaPedido());
 			}
 		}
 		else if(actCmd.equals("nuevo_usuario")) {

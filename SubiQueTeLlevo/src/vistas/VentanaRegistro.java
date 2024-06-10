@@ -113,6 +113,7 @@ public class VentanaRegistro extends JFrame  implements ActionListener, KeyListe
 				Cliente cliente = new Cliente(this.in_nombreRealField.getText(),this.in_userField.getText(),this.passwordField.getText());
 				this.c.registrarCliente(cliente);
 				this.dispose();
+				this.c.setVista(new VentanaPedido());
 			}
 			catch(ClienteExistenteException ex) {
 				Error error = new Error(ex.getMessage());

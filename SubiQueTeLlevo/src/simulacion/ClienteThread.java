@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 import modelo.Cliente;
+import modelo.Pedido;
 
 public class ClienteThread implements Runnable {
 	private RecursoCompartido rc;
@@ -27,13 +28,16 @@ public class ClienteThread implements Runnable {
 
 	public void run() {
 		for (int i = 0; i < this.viajesPorSolicitar; i++) {
-			this.rc.realizarPedido(LocalDateTime.now(), this.getZona(), this.getMascota(), new Random().nextInt(10)+1, this.getBaul(), this.cliente, new Random().nextInt(2000)+1);
+			
+			boolean pedido=false; 
+			pedido=this.rc.realizarPedido(LocalDateTime.now(), this.getZona(), this.getMascota(), new Random().nextInt(10)+1, this.getBaul(), this.cliente, new Random().nextInt(2000)+1);
 			try {
 				Thread.sleep((long)(Math.random() * 1000) + 1);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			this.rc.pagarViaje(this.cliente);
+			if(pedido)
+				this.rc.pagarViaje(this.cliente);
 			
 		}
 		RecursoCompartido.setContClientesActivos(RecursoCompartido.getContClientesActivos() - 1);

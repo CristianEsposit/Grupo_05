@@ -2,20 +2,29 @@ package negocio;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 import excepciones.ClienteExistenteException;
+import excepciones.PedidoIncoherenteException;
 import excepciones.UsuarioInexistenteException;
 import modelo.Cliente;
 import modelo.Usuario;
 import negocio.Sistema;
+import ojos.OjoViaje;
 import simulacion.Simulacion;
+import vistas.VentanaPedido;
+import vistas.VentanaViaje;
 
 import javax.swing.JFrame;
 public class Controlador implements ActionListener{
 	private JFrame vista; // IVista Futura
+	private Cliente humano;
+	private Sistema modelo;
+	private OjoViaje ojo;
 
 	public Controlador(JFrame vista) {
 		this.vista = vista;
+		modelo=Sistema.getInstance();
 	}
 	/**
 	 * 
@@ -40,8 +49,16 @@ public class Controlador implements ActionListener{
 	public void registrarCliente(Cliente c) throws ClienteExistenteException{
 		Sistema.getInstance().agregar(c);
 	}
+	
+	public void crearPedido(String zona,boolean pet,boolean baul,int pasajeros,int dist) {
+			ojo=new OjoViaje(modelo.getSimulacion().getRecursoCompartido(),new VentanaViaje(this),humano);
+			this.modelo.getSimulacion().getRecursoCompartido().realizarPedido(LocalDateTime.now(), zona, pet, pasajeros, baul, humano, dist);
+	}
 
-
+	public void pagar() {
+			this.modelo.getSimulacion().getRecursoCompartido().pagarViaje(humano);
+			this.vista.setVisible(true);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Simulacion sim;
@@ -61,5 +78,9 @@ public class Controlador implements ActionListener{
 			sim = new Simulacion (Sistema.getInstance(), CantClientes, CantViajesCliente, cantChoferContratado, cantChoferPermanente, cantChoferTemporario, cantMaxViajesChofer, cantMotos, cantAutos, cantCombis);
 			sim.iniciaSimulacion();
 		}
+	}
+	public void setVista(VentanaPedido ventanaPedido) {
+		vista=ventanaPedido;
+		
 	}
 }

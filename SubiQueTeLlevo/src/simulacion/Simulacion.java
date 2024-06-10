@@ -68,12 +68,14 @@ public class Simulacion {
 	 */
 
 	public void iniciaSimulacion() {
-		this.recursoCompartido = new RecursoCompartido(this.cantViajesCliente,this.cantViajesChofer);
+		this.recursoCompartido = new RecursoCompartido(this.sistema,this.cantClientes,this.cantChoferContratado + this.cantChoferPermanente +this.cantChoferTemporario);
 		VentanasInformativas ventana = new VentanasInformativas();
 		ClienteThread cliente = new ClienteThread(this.recursoCompartido,cantViajesCliente,1);
+		new Thread(cliente).start();
 		try {
 			ChoferThread chofer = new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferContratado("" + 1,"bot_chofer_contratado" + 1));
 			new OjoChofer(this.recursoCompartido, ventana, chofer);
+			new Thread(chofer).start();
 		} catch (ChoferExistenteException e) {
 			new Error(e.toString());
 		}
@@ -121,4 +123,10 @@ public class Simulacion {
 		}
 		new Thread(hiloSistema).start();
 	}
+	public RecursoCompartido getRecursoCompartido() {
+		return recursoCompartido;
+	}
+	
+	
+	
 }
