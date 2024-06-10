@@ -75,8 +75,6 @@ public class RecursoCompartido extends Observable {
 
 	private synchronized void solicitarViaje(Pedido pedido, int distancia) {
 		String cartel;
-		System.out.println(this.contChoferesActivos);
-		System.out.println(this.choferesDisponibles);
 		while (contChoferesActivos > 0 && choferesDisponibles.isEmpty())
 			try {
 				wait();
@@ -118,15 +116,17 @@ public class RecursoCompartido extends Observable {
 		IViaje viajeAct = null;
 		int posicionViaje;
 		posicionViaje = this.posicionViajeConVehiculo();
+		System.out.println("pos " + posicionViaje);
 		while ((contClientesActivos > 0 || contClientesHumanosActivos > 0) && posicionViaje < 0) {
-			System.out.println("pos " + posicionViaje);
 			try {
 				wait();
-				System.out.println("Dormido");
+				posicionViaje = this.posicionViajeConVehiculo();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("pos " + posicionViaje);
+		notifyAll();
 		if ((contClientesActivos > 0 || contClientesHumanosActivos > 0) && posicionViaje >= 0) {
 			try {
 				viajeAct = this.viajesActivos.get(posicionViaje);
@@ -165,16 +165,8 @@ public class RecursoCompartido extends Observable {
 		String cartel;
 		IViaje viajeAct = null;
 		int posicionViaje;
-		while(this.viajesActivos.isEmpty()) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		posicionViaje = this.posicionViajeSolicitado();
-		System.out.println("posViaje" + posicionViaje);
+		
 		if (posicionViaje >= 0) {
 			viajeAct = this.viajesActivos.get(posicionViaje);
 			if (!vehiculosDisponibles.isEmpty()) {
@@ -194,6 +186,16 @@ public class RecursoCompartido extends Observable {
 			notifyObservers(cartel);
 		}
 	}
+	private int posicionViajeIniciado(Cliente c) {
+		int i = 0;
+		while (i < this.viajesActivos.size() && !this.viajesActivos.get(i).getPedido().getCliente().equals(c)) {
+			i++;
+		}
+		if (i < this.viajesActivos.size() && this.viajesActivos.get(i).getEstado().equalsIgnoreCase("iniciado"))
+			return i;
+		else
+			return -1;
+	}
 	/**
 	 * Establece un Viaje como pagado<br>
 	 * Llamado por ClienteThread
@@ -201,27 +203,35 @@ public class RecursoCompartido extends Observable {
 	public synchronized void pagarViaje(Cliente c) {
 		String cartel = null;
 		int i = 0;
-		//System.out.println(this.viajesActivos);
-		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
+		int posViajeIniciado=posicionViajeIniciado(c);
+		IViaje viajeAct;
+		/*while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c) {
 			i++;
-		}
-		while(i == this.viajesActivos.size() || !this.viajesActivos.get(i).getEstado().equalsIgnoreCase("iniciado")) {
+		}*/
+		while(posViajeIniciado<0) {
 			try {
 				wait();
-				i = 0;
-				//System.out.println(this.viajesActivos);
-				while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getPedido().getCliente() != c)
-					i++;
+				posViajeIniciado=posicionViajeIniciado(c);
 			}catch(InterruptedException e) {
 				
 			}
 		}
 		notifyAll();
-		
-		this.sistema.pagar(this.viajesActivos.get(i));
-		cartel = "El cliente " + c.getNombreReal() + "paga el viaje al chofer " + this.viajesActivos.get(i).getChofer().getNombre();
+		System.out.println(this.viajesActivos.get(posViajeIniciado));
+		this.sistema.pagar(this.viajesActivos.get(posViajeIniciado));
+		cartel = "El cliente " + c.getNombreReal() + "paga el viaje al chofer " + this.viajesActivos.get(posViajeIniciado).getChofer().getNombre();
 		setChanged();
 		notifyObservers(cartel);
+	}
+	private int posicionViajePagado(Chofer c) {
+		int i = 0;
+		while (i < this.viajesActivos.size() && !this.viajesActivos.get(i).getChofer().equals(c)) {
+			i++;
+		}
+		if (i < this.viajesActivos.size() && this.viajesActivos.get(i).getEstado().equalsIgnoreCase("pagado"))
+			return i;
+		else
+			return -1;
 	}
 	/**
 	 * Establece un Viaje como Finalizado 
@@ -230,27 +240,20 @@ public class RecursoCompartido extends Observable {
 
 	public synchronized void finalizaViaje(Chofer c) {
 		String cartel;
-		int i = 0;
-		//System.out.println(this.viajesActivos);
-		while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer()!= c) {
-			i++;
-		}
-		while(i == this.viajesActivos.size() || !this.viajesActivos.get(i).getEstado().equalsIgnoreCase("pagado")) {
+		int posViajePagado=posicionViajePagado(c);
+		while(posViajePagado<0) {
 			try {
 				wait();
-				i = 0;
-				//System.out.println(this.viajesActivos);
-				while (i < this.viajesActivos.size() && this.viajesActivos.get(i).getChofer()!= c)
-					i++;
+				posViajePagado=posicionViajePagado(c);
 			}catch(InterruptedException e) {
 				
 			}
 		}
 		notifyAll();
-		this.sistema.finalizar(this.viajesActivos.get(i));
+		this.sistema.finalizar(this.viajesActivos.get(posViajePagado));
 		this.addChofer(c);
-		SistemaThread.agregaVehiculo(this.viajesActivos.get(i).getVehiculo());
-		cartel = "El chofer" + c.getNombre() + "finaliza el viaje del cliente " + this.viajesActivos.get(i).getPedido().getCliente().getNombreReal();
+		SistemaThread.agregaVehiculo(this.viajesActivos.get(posViajePagado).getVehiculo());
+		cartel = "El chofer" + c.getNombre() + "finaliza el viaje del cliente " + this.viajesActivos.get(posViajePagado).getPedido().getCliente().getNombreReal();
 		setChanged();
 		notifyObservers(cartel);
 	}
