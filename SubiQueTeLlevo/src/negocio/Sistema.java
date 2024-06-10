@@ -28,7 +28,7 @@ public class Sistema {
 	private ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
 	private Simulacion simulacion;
-
+	
 	private Sistema() {
 
 	}
@@ -36,8 +36,9 @@ public class Sistema {
 	public static Sistema getInstance() {
 		if (Sistema.instance == null)
 			Sistema.instance = new Sistema();
-		return instance;
+		return instance;	
 	}
+	
 /////////////////////////////////////////////////////////////////////
 ////// ABM PARA ADMINISTRADOR
 /////////////////////////////////////////////////////////////////////
@@ -609,4 +610,6 @@ public class Sistema {
 	public void setSimulacion(Simulacion simulacion) {
 		this.simulacion = simulacion;
 	}
+	
+	
 }
