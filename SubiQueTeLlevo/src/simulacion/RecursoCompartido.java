@@ -68,7 +68,6 @@ public class RecursoCompartido extends Observable {
 			setChanged();
 			notifyObservers(cartel);
 		}
-		notifyAll();
 	}
 
 	/**
@@ -121,6 +120,7 @@ public class RecursoCompartido extends Observable {
 	 * Asigna un Chofer a un Viaje. <br>
 	 * Llamado por ChoferThreads.
 	 */
+	@SuppressWarnings("deprecation")
 	public synchronized void agarraViaje(ChoferThread c) {
 		String cartel;
 		IViaje viajeAct = null;
@@ -174,6 +174,7 @@ public class RecursoCompartido extends Observable {
 			return -1;
 	}
 
+	@SuppressWarnings("deprecation")
 	public synchronized void asignarVehiculo(ArrayList<Vehiculo> vehiculosDisponibles) {
 		String cartel;
 		IViaje viajeAct = null;
@@ -218,6 +219,7 @@ public class RecursoCompartido extends Observable {
 	 * Establece un Viaje como pagado<br>
 	 * Llamado por ClienteThread
 	 */
+	@SuppressWarnings("deprecation")
 	public synchronized void pagarViaje(Cliente c) {
 		String cartel = null;
 		int i = 0;
@@ -265,6 +267,7 @@ public class RecursoCompartido extends Observable {
 	 * Establece un Viaje como Finalizado Llamado por ChoferThread
 	 */
 
+	@SuppressWarnings("deprecation")
 	public synchronized void finalizaViaje(Chofer c) {
 		String cartel;
 		int posViajePagado = posicionViajePagado(c);
@@ -281,6 +284,7 @@ public class RecursoCompartido extends Observable {
 			this.sistema.finalizar(this.viajesActivos.get(posViajePagado));
 			this.addChofer(c);
 			SistemaThread.agregaVehiculo(this.viajesActivos.get(posViajePagado).getVehiculo());
+			this.viajesActivos.remove(posViajePagado);
 			cartel = "El chofer " + c.getNombre() + " finaliza el viaje del cliente "
 					+ this.viajesActivos.get(posViajePagado).getPedido().getCliente().getNombreReal();
 		} else
@@ -295,7 +299,7 @@ public class RecursoCompartido extends Observable {
 	 * 
 	 * @param chofer Chofer que ingresa (o reingresa) como disponible
 	 */
-	public void addChofer(Chofer chofer) {
+	public synchronized void addChofer(Chofer chofer) {
 		this.choferesDisponibles.add(chofer);
 	}
 
@@ -319,6 +323,7 @@ public class RecursoCompartido extends Observable {
 		return this.choferesDisponibles;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public synchronized void reduceClientesThread() {
 		this.contClientesActivos--;
 		if (this.contClientesActivos == 0) {
@@ -327,6 +332,7 @@ public class RecursoCompartido extends Observable {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public synchronized void reduceChoferesThread() {
 		this.contChoferesActivos--;
 		if (this.contChoferesActivos == 0) {
