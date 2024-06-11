@@ -30,6 +30,7 @@ public class ChoferThread implements Runnable {
 
 	public void run() {
 		for(int i = 0; i < this.viajesPorRealizar; i++) {
+			this.agarroViaje = false;
 			this.rc.agarraViaje(this);
 			try {
 				Thread.sleep((long)(Math.random() * 1000) + 1);

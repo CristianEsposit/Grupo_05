@@ -28,7 +28,7 @@ public class ClienteThread implements Runnable {
 
 	public void run() {
 		for (int i = 0; i < this.viajesPorSolicitar; i++) {
-			
+			this.cliente.setPedidoValido(false);
 			//boolean pedido=false; 
 			//pedido=
 			this.rc.realizarPedido(LocalDateTime.now(), this.getZona(), this.getMascota(), new Random().nextInt(10)+1, this.getBaul(), this.cliente, new Random().nextInt(2000)+1);
