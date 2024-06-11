@@ -44,6 +44,15 @@ public class Controlador implements ActionListener{
 		else 
 			return usuario.getPassword();
 	}
+	
+	public Cliente getCliente(String user) {
+		Cliente cliente = Sistema.getInstance().consultarCliente(user);
+		return cliente;
+	}
+	
+	public void setHumano(Cliente c) {
+		this.humano = c;
+	}
 	/**
 	 * 
 	 * @param c Nuevo Cliente a registrar
@@ -52,6 +61,7 @@ public class Controlador implements ActionListener{
 
 	public void registrarCliente(Cliente c) throws ClienteExistenteException{
 		Sistema.getInstance().agregar(c);
+		this.humano = c;
 	}
 	
 	public void crearPedido(String zona,boolean pet,boolean baul,int pasajeros,int dist) {
@@ -69,7 +79,7 @@ public class Controlador implements ActionListener{
 		String actCmd = e.getActionCommand();
 		if(actCmd.equals("iniciar_simulacion")) {
 			
-			int CantClientes =5;
+			int CantClientes = 0;
 			int CantViajesCliente = 5;
 			int cantChoferContratado =5;
 			int cantChoferPermanente = 5;
@@ -80,6 +90,7 @@ public class Controlador implements ActionListener{
 			int cantCombis = 5;
 			
 			sim = new Simulacion (Sistema.getInstance(), CantClientes, CantViajesCliente, cantChoferContratado, cantChoferPermanente, cantChoferTemporario, cantMaxViajesChofer, cantMotos, cantAutos, cantCombis);
+			Sistema.getInstance().setSimulacion(sim);
 			sim.iniciaSimulacion();
 			this.GuardarDatos();
 		}

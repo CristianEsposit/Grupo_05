@@ -1,13 +1,19 @@
 package vistas;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import excepciones.ClienteExistenteException;
+import modelo.Cliente;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JTextArea;
 
 public class VentanaViaje extends JFrame {
@@ -38,6 +44,7 @@ public class VentanaViaje extends JFrame {
 		this.botonPagar.setVisible(false);
 		this.botonPagar.setActionCommand("Pagar");
 		this.botonPagar.addActionListener(c);
+		this.setVisible(true);
 	}
 	
 

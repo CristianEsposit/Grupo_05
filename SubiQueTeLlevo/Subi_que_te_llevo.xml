@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="17.0.11" class="java.beans.XMLDecoder">
+ <object class="persistencia.SistemaDTO" id="SistemaDTO0">
+  <void property="choferes">
+   <void method="add">
+    <object class="modelo.ChoferContratado"/>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferContratado"/>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferContratado"/>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferContratado"/>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferContratado"/>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferPermanente">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="cantidadHijos">
+      <int>1</int>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferPermanente">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="cantidadHijos">
+      <int>1</int>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferPermanente">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="cantidadHijos">
+      <int>1</int>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferPermanente">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="cantidadHijos">
+      <int>1</int>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferPermanente">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="cantidadHijos">
+      <int>1</int>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferTemporario">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferTemporario">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferTemporario">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferTemporario">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.ChoferTemporario">
+     <void property="aportes">
+      <double>100.0</double>
+     </void>
+     <void property="sueldoBasico">
+      <double>100.0</double>
+     </void>
+    </object>
+   </void>
+  </void>
+  <void property="clientes">
+   <void method="add">
+    <object class="modelo.Cliente">
+     <void property="nombreReal">
+      <string>cristian</string>
+     </void>
+     <void property="nombreUsuario">
+      <string>cristian</string>
+     </void>
+     <void property="password">
+      <string>cristian</string>
+     </void>
+    </object>
+   </void>
+  </void>
+  <void property="flota">
+   <void method="add">
+    <object class="modelo.Moto">
+     <void property="cantPasajeros">
+      <int>1</int>
+     </void>
+     <void property="nroPatente">
+      <string>MMM1</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Moto">
+     <void property="cantPasajeros">
+      <int>1</int>
+     </void>
+     <void property="nroPatente">
+      <string>MMM2</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Moto">
+     <void property="cantPasajeros">
+      <int>1</int>
+     </void>
+     <void property="nroPatente">
+      <string>MMM3</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Moto">
+     <void property="cantPasajeros">
+      <int>1</int>
+     </void>
+     <void property="nroPatente">
+      <string>MMM4</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Moto">
+     <void property="cantPasajeros">
+      <int>1</int>
+     </void>
+     <void property="nroPatente">
+      <string>MMM5</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Auto">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>4</int>
+     </void>
+     <void property="nroPatente">
+      <string>AAA1</string>
+     </void>
+     <void property="petFriendly">
+      <boolean>true</boolean>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Auto">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>4</int>
+     </void>
+     <void property="nroPatente">
+      <string>AAA2</string>
+     </void>
+     <void property="petFriendly">
+      <boolean>true</boolean>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Auto">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>4</int>
+     </void>
+     <void property="nroPatente">
+      <string>AAA3</string>
+     </void>
+     <void property="petFriendly">
+      <boolean>true</boolean>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Auto">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>4</int>
+     </void>
+     <void property="nroPatente">
+      <string>AAA4</string>
+     </void>
+     <void property="petFriendly">
+      <boolean>true</boolean>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Auto">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>4</int>
+     </void>
+     <void property="nroPatente">
+      <string>AAA5</string>
+     </void>
+     <void property="petFriendly">
+      <boolean>true</boolean>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Combi">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>10</int>
+     </void>
+     <void property="nroPatente">
+      <string>CCC1</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Combi">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>10</int>
+     </void>
+     <void property="nroPatente">
+      <string>CCC2</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Combi">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>10</int>
+     </void>
+     <void property="nroPatente">
+      <string>CCC3</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Combi">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>10</int>
+     </void>
+     <void property="nroPatente">
+      <string>CCC4</string>
+     </void>
+    </object>
+   </void>
+   <void method="add">
+    <object class="modelo.Combi">
+     <void property="baul">
+      <boolean>true</boolean>
+     </void>
+     <void property="cantPasajeros">
+      <int>10</int>
+     </void>
+     <void property="nroPatente">
+      <string>CCC5</string>
+     </void>
+    </object>
+   </void>
+  </void>
+  <void property="simulacion">
+   <object class="simulacion.Simulacion"/>
+  </void>
+ </object>
+</java>

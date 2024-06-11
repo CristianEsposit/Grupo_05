@@ -151,8 +151,10 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 			            e.printStackTrace();
 			        }
 			}
-			else
+			else {
 				isValid = true;
+				controlador.setHumano(controlador.getCliente(this.in_UserField.getText()));
+			}
 		}
 		catch(UsuarioInexistenteException u) {
 			 try {
@@ -172,12 +174,12 @@ public class VentanaLogin extends JFrame implements ActionListener, KeyListener 
 		String actCmd = ae.getActionCommand();
 		if(actCmd.equals("usuario_ingresado")){
 			if (validarEntrada()) {
-				this.controlador.setVista(new VentanaPedido());
+				this.controlador.setVista(new VentanaPedido(this.controlador));
 			}
 		}
 		else if(actCmd.equals("nuevo_usuario")) {
 			try {
-				VentanaRegistro frame = new VentanaRegistro();
+				VentanaRegistro frame = new VentanaRegistro(this.controlador);
 				frame.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();

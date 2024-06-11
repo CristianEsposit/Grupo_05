@@ -60,8 +60,9 @@ public class VentanaPedido extends JFrame implements IVista,ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public VentanaPedido() {
+	public VentanaPedido(Controlador c) {
 		super("Realizar pedido");
+		this.controlador = c;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.contentPane = new JPanel();
@@ -206,7 +207,7 @@ public class VentanaPedido extends JFrame implements IVista,ActionListener{
 			String strDist =this.textFieldPasajeros.getText();
 			boolean pet,baul;
 			int pasajeros,dist;
-			if(zona()!=null && mascota()!=null && equipaje()!=null && strPasajeros!=null && strPasajeros.equalsIgnoreCase("") && strDist!=null &&strDist.equalsIgnoreCase("")) {
+			if(zona()!=null && mascota()!=null && equipaje()!=null && strPasajeros!=null && !strPasajeros.equalsIgnoreCase("") && strDist!=null && !strDist.equalsIgnoreCase("")) {
 				try {
 					
 				pasajeros=Integer.parseInt(strPasajeros);
@@ -224,7 +225,7 @@ public class VentanaPedido extends JFrame implements IVista,ActionListener{
 				controlador.crearPedido(zona(),pet,baul,pasajeros,dist);
 				setVisible(false);
 				}catch(Exception exp) {
-					new Error("Datos Invalidos");
+					new Error(exp.getMessage());
 				}
 				
 			}else {

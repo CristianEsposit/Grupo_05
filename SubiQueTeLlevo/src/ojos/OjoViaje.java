@@ -27,6 +27,7 @@ public class OjoViaje implements Observer {
 		if (this.observado == o) {
 			//
 			String cartel = (String) arg;
+			System.out.println(cartel);
 			if(cartel.contains(humano.getNombreReal()) && cartel.contains("Iniciado")) {
 				this.vista.actualizaTextArea(cartel);
 				this.vista.habilitarPagar();

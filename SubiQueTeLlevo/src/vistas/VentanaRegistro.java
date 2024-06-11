@@ -36,11 +36,13 @@ public class VentanaRegistro extends JFrame  implements ActionListener, KeyListe
 	private JButton btnAceptar;
 	private JPasswordField passwordField;
 	
-	Controlador c = new Controlador(this);
+	Controlador controlador;
 	/**
 	 * Create the frame.
 	 */
-	public VentanaRegistro() {
+	public VentanaRegistro(Controlador c) {
+		this.controlador = c;
+		
 		setTitle("Registro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 529, 377);
@@ -111,9 +113,9 @@ public class VentanaRegistro extends JFrame  implements ActionListener, KeyListe
 		if(actCmd.equals("registro")) {
 			try{
 				Cliente cliente = new Cliente(this.in_nombreRealField.getText(),this.in_userField.getText(),this.passwordField.getText());
-				this.c.registrarCliente(cliente);
+				this.controlador.registrarCliente(cliente);
 				this.dispose();
-				this.c.setVista(new VentanaPedido());
+				this.controlador.setVista(new VentanaPedido(this.controlador));
 			}
 			catch(ClienteExistenteException ex) {
 				Error error = new Error(ex.getMessage());
