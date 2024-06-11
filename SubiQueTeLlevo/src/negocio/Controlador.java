@@ -79,7 +79,7 @@ public class Controlador implements ActionListener{
 		String actCmd = e.getActionCommand();
 		if(actCmd.equals("iniciar_simulacion")) {
 			
-			int CantClientes = 0;
+			int CantClientes = 5;
 			int CantViajesCliente = 5;
 			int cantChoferContratado =5;
 			int cantChoferPermanente = 5;
@@ -93,6 +93,9 @@ public class Controlador implements ActionListener{
 			Sistema.getInstance().setSimulacion(sim);
 			sim.iniciaSimulacion();
 			//this.GuardarDatos();
+		}
+		if(actCmd.equals("Pagar")) {
+			this.pagar();
 		}
 	}
 	public void setVista(VentanaPedido ventanaPedido) {

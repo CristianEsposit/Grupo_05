@@ -143,7 +143,7 @@ public class RecursoCompartido extends Observable {
 				this.choferesDisponibles.remove(c.getChofer());
 				c.setAgarroViaje(true);
 				cartel = "El chofer " + viajeAct.getChofer().getNombre() + " tomo el viaje del cliente "
-						+ viajeAct.getPedido().getCliente().getNombreReal();
+						+ viajeAct.getPedido().getCliente().getNombreReal() + " y esta Iniciado";
 			} catch (FaltaChoferException e) {
 				cartel = "En este momento no hay choferes disponibles para el viaje del cliente "
 						+ viajeAct.getPedido().getCliente().getNombreReal();
