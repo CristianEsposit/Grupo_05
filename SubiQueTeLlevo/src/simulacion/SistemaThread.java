@@ -17,7 +17,7 @@ public class SistemaThread implements Runnable {
 	 * El objetivo de este hilo es asignar siempre que pueda vehiculos a los viajes.
 	 */
 	public void run() {
-		while (RecursoCompartido.getContChoferesActivos() > 0 /*this.controlador.getVista().isActive()*/) {
+		while (this.rc.getContChoferesActivos() > 0 /*this.controlador.getVista().isActive()*/) {
 			this.rc.asignarVehiculo(vehiculosDisponibles);
 		}
 	}
