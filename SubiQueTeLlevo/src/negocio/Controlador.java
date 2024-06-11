@@ -81,7 +81,7 @@ public class Controlador implements ActionListener{
 			
 			sim = new Simulacion (Sistema.getInstance(), CantClientes, CantViajesCliente, cantChoferContratado, cantChoferPermanente, cantChoferTemporario, cantMaxViajesChofer, cantMotos, cantAutos, cantCombis);
 			sim.iniciaSimulacion();
-			this.GuardarDatos();
+			//this.GuardarDatos();
 		}
 	}
 	public void setVista(VentanaPedido ventanaPedido) {
