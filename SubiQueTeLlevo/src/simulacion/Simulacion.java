@@ -102,7 +102,7 @@ public class Simulacion {
 		}
 		for(int i = 2; i <= this.cantChoferContratado;i++) {
 			try {				
-				new Thread(new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferContratado("" + i,"bot_chofer_contratado" + i))).start();
+				new Thread(new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferContratado("" + i,"bot_chofer_contratado " + i))).start();
 			}catch(ChoferExistenteException e) {
 				new Error(e.toString());
 			}
@@ -116,7 +116,7 @@ public class Simulacion {
 		}
 		for(int i = 1; i <= this.cantChoferTemporario;i++) {
 			try {
-				new Thread(new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferTemporario("" + i,"bot_chofer_temporario" + i,100,100))).start();
+				new Thread(new ChoferThread(this.recursoCompartido,cantViajesChofer,new ChoferTemporario("bot_chofer_temporario " + i, "" + i, 100,100))).start();
 			}catch(ChoferExistenteException e) {
 				new Error(e.toString());
 			}

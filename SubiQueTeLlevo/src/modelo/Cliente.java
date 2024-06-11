@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Cliente extends Usuario implements Cloneable{
 	private ArrayList<IViaje> viajes = new ArrayList<IViaje>();
+	//nuevo
+	private boolean pedidoValido;
 
 	public Cliente() { //para serializar
 		
@@ -39,6 +41,15 @@ public class Cliente extends Usuario implements Cloneable{
 		Cliente nCli = (Cliente)super.clone();
 		nCli.viajes = (ArrayList<IViaje>)this.viajes.clone();
 		return nCli;
+	}
+
+	//nuevo
+	public boolean isPedidoValido() {
+		return pedidoValido;
+	}
+
+	public void setPedidoValido(boolean pedidoValido) {
+		this.pedidoValido = pedidoValido;
 	}
 
 }

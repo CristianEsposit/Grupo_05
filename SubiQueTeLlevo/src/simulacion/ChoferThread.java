@@ -8,6 +8,8 @@ public class ChoferThread implements Runnable {
 	private RecursoCompartido rc;
 	private int viajesPorRealizar;
 	private Chofer chofer;
+	//nuevo
+	private boolean agarroViaje = false;
 	
 	public ChoferThread(RecursoCompartido rc, int viajes, Chofer chofer) throws ChoferExistenteException {
 		this.rc = rc;
@@ -34,9 +36,11 @@ public class ChoferThread implements Runnable {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			if (this.agarroViaje)
 			this.rc.finalizaViaje(chofer);
 		}
-		RecursoCompartido.setContChoferesActivos(RecursoCompartido.getContChoferesActivos() - 1);
+		this.rc.reduceChoferesThread();
+		System.out.println(this.chofer.getNombre() + " se va.");
 	}
 	
 	public Chofer getChofer() {
@@ -45,6 +49,10 @@ public class ChoferThread implements Runnable {
 
 	public int getViajesPorRealizar() {
 		return viajesPorRealizar;
+	}
+
+	public void setAgarroViaje(boolean agarroViaje) {
+		this.agarroViaje = agarroViaje;
 	}
 
 }
